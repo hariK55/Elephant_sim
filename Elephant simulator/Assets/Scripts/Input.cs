@@ -2,18 +2,34 @@ using UnityEngine;
 
 public class Input : MonoBehaviour
 {
-    public static Input Instance { get; private set; }
+    [SerializeField]
+    private Quaternion slopeRotation;
 
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float slopeStickForce = 8f;
-    [SerializeField] private float slopeAlignSpeed = 10f;
+
+    [Header("Slope Detection")]
+    [SerializeField] private float steepSlopeAngle = 30f;
+
+    public bool isSteepSlope;         // just detects slope > angle
+    public bool isSlidingDownhill;    // detects downhill movement
+    public bool isGrounded;
+    private Vector3 slopeNormal;
+    private float currentSlopeAngle;
+
+    // [SerializeField] private Vector3 euler ;
+    public static Input Instance { get; private set; }
+    [SerializeField] private float runSpeed = 6f;
+    [SerializeField] private float moveSpeed = 2.2f;
+    [SerializeField] private float rotationSpeed = 3f;
+    [SerializeField] private float slopeStickForce = 3f;
+   // [SerializeField] private float slopeAlignSpeed = 2f;
     [SerializeField] private Transform cameraTransform;
 
+    private float speed;
     private Animator animator;
     private Rigidbody rb;
 
     private bool isWalking;
+    private bool isRunning;
 
     InputSystem inputActions;
 
@@ -28,18 +44,37 @@ public class Input : MonoBehaviour
         // Prevent the player from falling sideways
         rb.constraints = RigidbodyConstraints.FreezeRotationX |
                          RigidbodyConstraints.FreezeRotationZ;
+
+        speed = moveSpeed;
     }
 
     void Start()
     {
         inputActions.Player.Enable();
+        inputActions.Player.Sprint.performed += Sprint_performed;
+        inputActions.Player.Sprint.canceled += Sprint_canceled;
+    }
+
+    private void Sprint_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        speed = moveSpeed;
+        isRunning = false;
+    }
+
+    private void Sprint_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        speed = runSpeed;
+
+        isRunning = true;
     }
 
     private void FixedUpdate()
     {
+        //euler = slopeRotation.eulerAngles;
         Movement();
         StickToSlope();
         AlignRotationToSlope();
+        CheckSlopeStatus();
     }
 
     // ---------------------------------------------------
@@ -62,7 +97,7 @@ public class Input : MonoBehaviour
         Vector3 moveDir = camForward * moveInput.y + camRight * moveInput.x;
 
         // Apply velocity
-        Vector3 targetVelocity = moveDir * moveSpeed;
+        Vector3 targetVelocity = moveDir * speed;
         targetVelocity.y = rb.linearVelocity.y; // keep Unity gravity
         rb.linearVelocity = targetVelocity;
 
@@ -117,7 +152,7 @@ public class Input : MonoBehaviour
     private void AlignRotationToSlope()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up * 0.3f, Vector3.down, out hit, 1.5f))
+        if (Physics.Raycast(transform.position + (Vector3.up * 0.3f), Vector3.down, out hit, 2f))
         {
             // STEP 1: Smooth the ground normal itself
             smoothedNormal = Vector3.Slerp(
@@ -127,7 +162,7 @@ public class Input : MonoBehaviour
             );
 
             // STEP 2: Find slope rotation using smoothed normal
-            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, smoothedNormal) * transform.rotation;
+           slopeRotation = Quaternion.FromToRotation(transform.up, smoothedNormal) * transform.rotation;
 
             // STEP 3: Smoothly apply that rotation
             transform.rotation = Quaternion.Slerp(
@@ -156,4 +191,56 @@ public class Input : MonoBehaviour
     }
 
     public bool IsWalking() => isWalking;
+
+    public bool IsRunning() => isRunning;
+
+    private void CheckSlopeStatus()
+    {
+        RaycastHit hit;
+
+        // check if grounded
+        isGrounded = Physics.Raycast(
+            transform.position + Vector3.up * 0.5f,
+            Vector3.down,
+            out hit,
+            1.5f
+        );
+
+        if (!isGrounded)
+        {
+            isSteepSlope = false;
+            isSlidingDownhill = false;
+            return;
+        }
+
+        slopeNormal = hit.normal;
+        currentSlopeAngle = Vector3.Angle(slopeNormal, Vector3.up);
+
+        // ---------------------------------------------------------
+        // 1. detect steep slope (>45 deg)
+        // ---------------------------------------------------------
+        isSteepSlope = currentSlopeAngle > steepSlopeAngle;
+
+        if (!isSteepSlope)
+        {
+            isSlidingDownhill = false;
+            return;
+        }
+
+        // ---------------------------------------------------------
+        // 2. detect downhill direction
+        // ---------------------------------------------------------
+        // vector that points DOWN the slope
+        Vector3 slopeDownDir = Vector3.ProjectOnPlane(Vector3.down, slopeNormal).normalized;
+
+        // player movement vector
+        Vector3 horizontalVel = rb.linearVelocity;
+        horizontalVel.y = 0;
+
+        float downhillDot = Vector3.Dot(horizontalVel.normalized, slopeDownDir);
+
+        // If dot > 0.5 → moving downhill
+        isSlidingDownhill = downhillDot > 0.5f && horizontalVel.magnitude > 0.2f;
+    }
+
 }

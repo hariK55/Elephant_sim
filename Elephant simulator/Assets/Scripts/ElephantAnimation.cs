@@ -1,8 +1,13 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class ElephantAnimation : MonoBehaviour
 {
     private Animator animator;
+
+    float start = 0.6f;
+    float end = 0.6f;
+    float currentT = 0.2f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -10,13 +15,34 @@ public class ElephantAnimation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         AnimationController();
     }
     private void AnimationController()
     {
         animator.SetBool("isWalking", Input.Instance.IsWalking());
+
+        animator.SetBool("isRunning", Input.Instance.IsRunning() && Input.Instance.IsWalking());
+
+
+       // animator.SetBool("isSliding", Input.Instance.isSlidingDownhill);
+       //sliding animation
+        if (Input.Instance.isSlidingDownhill && Input.Instance.IsRunning())
+        {
+            // step through the normalized time
+            currentT += Time.deltaTime * 1f; // speed 1x
+
+            // wrap back to start if passed end
+            if (currentT > end)
+                currentT = start;
+
+            animator.Play("startSlide", 0, currentT);
+        }
+        else
+        {
+            currentT = 0.2f;
+        }
         
     }
 }
