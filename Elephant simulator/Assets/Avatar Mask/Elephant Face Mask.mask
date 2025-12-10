@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Elephant Face Mask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: ElephantLP
+    m_Weight: 0
+  - m_Path: TRS
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/leftLeg2_LoResUpperLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/leftLeg2_LoResUpperLeg/leftLeg2_LoResLowerLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/leftLeg2_LoResUpperLeg/leftLeg2_LoResLowerLeg/leftLeg2_LoResFoot
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/leftLeg2_LoResUpperLeg/leftLeg2_LoResLowerLeg/leftLeg2_LoResFoot/leftLeg2_LoResToe
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/leftLeg2_LoResUpperLeg/leftLeg2_LoResLowerLeg/leftLeg2_LoResFoot/leftLeg2_LoResToe/leftLeg2_LoResToe_end
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/rightLeg2_LoResUpperLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/rightLeg2_LoResUpperLeg/rightLeg2_LoResLowerLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/rightLeg2_LoResUpperLeg/rightLeg2_LoResLowerLeg/rightLeg2_LoResFoot
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/rightLeg2_LoResUpperLeg/rightLeg2_LoResLowerLeg/rightLeg2_LoResFoot/rightLeg2_LoResToe
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/rightLeg2_LoResUpperLeg/rightLeg2_LoResLowerLeg/rightLeg2_LoResFoot/rightLeg2_LoResToe/rightLeg2_LoResToe_end
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/tail1_Joint1
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/tail1_Joint1/tail1_Joint2
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/tail1_Joint1/tail1_Joint2/tail1_Joint3
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/tail1_Joint1/tail1_Joint2/tail1_Joint3/tail1_Joint4
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResHips/tail1_Joint1/tail1_Joint2/tail1_Joint3/tail1_Joint4/tail1_Joint4_end
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/jaw
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/jaw/jaw_end
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/LeftEar01
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/LeftEar01/LeftEar02
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/LeftEar01/LeftEar02/LeftEar03
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/LeftEar01/LeftEar02/LeftEar03/LeftEar03_end
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03/proboscis04
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03/proboscis04/proboscis05
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03/proboscis04/proboscis05/proboscis06
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03/proboscis04/proboscis05/proboscis06/proboscis07
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03/proboscis04/proboscis05/proboscis06/proboscis07/proboscis08
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03/proboscis04/proboscis05/proboscis06/proboscis07/proboscis08/proboscis09
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/proboscis01/proboscis02/proboscis03/proboscis04/proboscis05/proboscis06/proboscis07/proboscis08/proboscis09/proboscis09_end
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/RrightEar01
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/RrightEar01/RrightEar02
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/RrightEar01/RrightEar02/RrightEar03
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/RrightEar01/RrightEar02/RrightEar03/RrightEar03_end
+    m_Weight: 1
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/leftLeg1_LoResUpperLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/leftLeg1_LoResUpperLeg/leftLeg1_LoResLowerLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/leftLeg1_LoResUpperLeg/leftLeg1_LoResLowerLeg/leftLeg1_LoResFoot
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/leftLeg1_LoResUpperLeg/leftLeg1_LoResLowerLeg/leftLeg1_LoResFoot/leftLeg1_LoResToe
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/leftLeg1_LoResUpperLeg/leftLeg1_LoResLowerLeg/leftLeg1_LoResFoot/leftLeg1_LoResToe/leftLeg1_LoResToe_end
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/rightLeg1_LoResUpperLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/rightLeg1_LoResUpperLeg/rightLeg1_LoResLowerLeg
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/rightLeg1_LoResUpperLeg/rightLeg1_LoResLowerLeg/rightLeg1_LoResFoot
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/rightLeg1_LoResUpperLeg/rightLeg1_LoResLowerLeg/rightLeg1_LoResFoot/rightLeg1_LoResToe
+    m_Weight: 0
+  - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/rightLeg1_LoResUpperLeg/rightLeg1_LoResLowerLeg/rightLeg1_LoResFoot/rightLeg1_LoResToe/rightLeg1_LoResToe_end
+    m_Weight: 0

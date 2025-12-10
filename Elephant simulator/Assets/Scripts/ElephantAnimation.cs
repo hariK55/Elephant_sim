@@ -18,6 +18,7 @@ public class ElephantAnimation : MonoBehaviour
     void FixedUpdate()
     {
         AnimationController();
+        //LoopAnim(0.6f, 0.6f, 0.2f, 0.2f, "startSlide", Input.Instance.isSlidingDownhill && Input.Instance.IsRunning());
     }
     private void AnimationController()
     {
@@ -43,6 +44,14 @@ public class ElephantAnimation : MonoBehaviour
         {
             currentT = 0.2f;
         }
+       
+   
         
     }
+    public void pick()
+    {
+        animator.Play("pick");
+    }
+
+   
 }

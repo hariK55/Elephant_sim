@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Input : MonoBehaviour
 {
     [SerializeField]
-    private Quaternion slopeRotation;
+    public bool isInteract;
 
 
     [Header("Slope Detection")]
@@ -17,6 +18,9 @@ public class Input : MonoBehaviour
 
     // [SerializeField] private Vector3 euler ;
     public static Input Instance { get; private set; }
+
+    public event EventHandler OnInteractPressed;
+
     [SerializeField] private float runSpeed = 6f;
     [SerializeField] private float moveSpeed = 2.2f;
     [SerializeField] private float rotationSpeed = 3f;
@@ -53,6 +57,16 @@ public class Input : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Player.Sprint.performed += Sprint_performed;
         inputActions.Player.Sprint.canceled += Sprint_canceled;
+        inputActions.Player.Interact.performed += Interact_performed;
+        //inputActions.Player.Interact.canceled += Interact_canceled;
+    }
+
+    
+
+    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+       // isInteract = true;
+        OnInteractPressed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Sprint_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -152,6 +166,7 @@ public class Input : MonoBehaviour
     private void AlignRotationToSlope()
     {
         RaycastHit hit;
+        Debug.DrawRay(transform.position + (Vector3.up * 0.3f), Vector3.down, Color.green);
         if (Physics.Raycast(transform.position + (Vector3.up * 0.3f), Vector3.down, out hit, 2f))
         {
             // STEP 1: Smooth the ground normal itself
@@ -162,7 +177,7 @@ public class Input : MonoBehaviour
             );
 
             // STEP 2: Find slope rotation using smoothed normal
-           slopeRotation = Quaternion.FromToRotation(transform.up, smoothedNormal) * transform.rotation;
+           Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, smoothedNormal) * transform.rotation;
 
             // STEP 3: Smoothly apply that rotation
             transform.rotation = Quaternion.Slerp(
