@@ -7,7 +7,7 @@ public class InteractPrompt : MonoBehaviour
 
     [SerializeField] private Vector3 worldOffset = new Vector3(0f, 1f, 0f);
 
-    [SerializeField] protected string keyHint = "[E (or) y] to";
+    [SerializeField] protected string keyHint = "";
 
     private Camera cam;
 

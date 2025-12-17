@@ -59,9 +59,25 @@ public class Input : MonoBehaviour
         inputActions.Player.Sprint.canceled += Sprint_canceled;
         inputActions.Player.Interact.performed += Interact_performed;
         //inputActions.Player.Interact.canceled += Interact_canceled;
+        inputActions.Player.Eat.started += Eat_started;
+        inputActions.Player.Eat.canceled += Eat_canceled;
+        inputActions.Player.Attack.performed += Attack_performed;
     }
 
-    
+    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        RapidPressMechanic.Instance.OnMash();
+    }
+
+    private void Eat_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        EatUI.Instance.OnHoldCanceled();
+    }
+
+    private void Eat_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        EatUI.Instance.OnHold();
+    }
 
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
@@ -166,7 +182,7 @@ public class Input : MonoBehaviour
     private void AlignRotationToSlope()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position + (Vector3.up * 0.3f), Vector3.down, Color.green);
+        Debug.DrawRay(transform.position + (Vector3.up * 0.3f) + (transform.forward * 1.2f), Vector3.down, Color.blue);
         if (Physics.Raycast(transform.position + (Vector3.up * 0.3f), Vector3.down, out hit, 2f))
         {
             // STEP 1: Smooth the ground normal itself

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Windows;
 
 
@@ -17,9 +17,14 @@ public interface Iinteractable
 
 public class PlayerInteractor : MonoBehaviour
 {
+    private GameObject heldObject;
+    [SerializeField] private Transform holdPoint;
+
     [SerializeField] private float radius = 2f;
 
     [SerializeField] private LayerMask interactableLayers;
+
+    public static PlayerInteractor Instance { get; private set; }
 
     [SerializeField]
     private InteractPrompt prompt;
@@ -28,17 +33,34 @@ public class PlayerInteractor : MonoBehaviour
 
     private Iinteractable focused;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         Input.Instance.OnInteractPressed += Instance_OnInteractPressed;
+        
     }
    
 
     private void Instance_OnInteractPressed(object sender, System.EventArgs e)
     {
-        if (focused != null)
+        // CASE 1: Already holding something → DROP
+        if (heldObject != null)
         {
-            if (focused.CanInteract()) focused.Interact();
+            DropObject();
+            ElephantAnimation.Instance.dropAnim();
+            return;
+        }
+
+        // CASE 2: Not holding & focused object exists → PICK
+        if (focused != null && focused.CanInteract())
+        {
+            focused.Interact();
+
+            heldObject = ((MonoBehaviour)focused).gameObject;
+            PickObject(heldObject);
 
         }
     }
@@ -64,7 +86,7 @@ public class PlayerInteractor : MonoBehaviour
 
         float bestDistSq = float.MaxValue;
 
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             Collider collider = buffer[i];
             if (collider == null) continue;
@@ -106,5 +128,37 @@ public class PlayerInteractor : MonoBehaviour
             prompt.Hide();
         }
         
+    }
+
+    public void PickObject(GameObject obj)
+    {
+        
+        //heldObject = obj;
+
+        // Disable physics while holding
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+
+        // Attach object to hand/hold point
+        obj.transform.SetParent(holdPoint, false);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
+    }
+
+    public void DropObject()
+    {
+        if (heldObject == null) return;
+        // Detach
+        heldObject.transform.SetParent(null);
+
+        // Re-enable physics
+        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+
+        heldObject = null;
+    }
+    public bool HasObject()
+    {
+        return heldObject != null;
     }
 }

@@ -3,11 +3,17 @@ using UnityEngine;
 
 public class ElephantAnimation : MonoBehaviour
 {
+    public static ElephantAnimation Instance { get; private set; }
     private Animator animator;
 
     float start = 0.6f;
     float end = 0.6f;
     float currentT = 0.2f;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -53,5 +59,13 @@ public class ElephantAnimation : MonoBehaviour
         animator.Play("pick");
     }
 
-   
+    public void dropAnim()
+    {
+        animator.SetTrigger("drop");
+    }
+    public void eatAnim()
+    {
+        animator.SetTrigger("eat");
+    }
+
 }

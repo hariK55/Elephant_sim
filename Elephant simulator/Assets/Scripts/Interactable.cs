@@ -3,9 +3,10 @@ using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour, Iinteractable
 {
-   
+   public static Interactable Instance { get; private set; }
+
     private Outline outline;
-    private bool isEnable = true;
+    [SerializeField]private bool isEnable =false;
 
     private string displayStr = "Pick";
 
@@ -20,6 +21,8 @@ public class Interactable : MonoBehaviour, Iinteractable
         outline.OutlineColor = Color.red;
         outline.OutlineWidth = 10f;
         outline.enabled = false;
+
+        Instance = this;
     }
     public void Interact()
     {
@@ -45,5 +48,8 @@ public class Interactable : MonoBehaviour, Iinteractable
         return isEnable;
     }
 
-    
+    public void Enable()
+    {
+        isEnable = true;
+    }
 }

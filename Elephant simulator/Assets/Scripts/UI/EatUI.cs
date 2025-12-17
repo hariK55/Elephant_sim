@@ -1,0 +1,56 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+public class EatUI: MonoBehaviour
+{
+    public float holdDuration = 4.2f;   // How long you have to hold down
+    public Image fillCircle;
+
+    private float holdTimer = 0f;
+    private bool isHolding = false;
+
+    public static EatUI Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    void Update()
+    {
+        if (isHolding)
+        {
+            holdTimer += Time.deltaTime;
+            fillCircle.fillAmount = holdTimer / holdDuration;
+
+            if (holdTimer >= holdDuration)
+            {
+
+                ElephantAnimation.Instance.eatAnim();
+                ResetHold();
+            }
+        }
+    }
+
+    
+
+    private void ResetHold()
+    {
+        isHolding = false;
+        holdTimer = 0f;
+        fillCircle.fillAmount = 0f;
+    }
+    public void OnHold()
+    {
+        if (PlayerInteractor.Instance.HasObject())
+        {
+            isHolding = true;
+        }
+        else return;
+    }
+    public void OnHoldCanceled()
+    {
+        ResetHold();
+    }
+}
