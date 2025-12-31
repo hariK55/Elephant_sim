@@ -7,12 +7,14 @@ public class Interactable : MonoBehaviour, Iinteractable
 
     private Outline outline;
     [SerializeField]private bool isEnable =false;
-
+    [SerializeField] private bool isEatable = false;
+    [SerializeField] private int EatValue;
     private string displayStr = "Pick";
 
     [SerializeField] private UnityEvent Oninteract;
 
     string Iinteractable.Display => displayStr;
+
 
     private void Awake()
     {
@@ -48,8 +50,26 @@ public class Interactable : MonoBehaviour, Iinteractable
         return isEnable;
     }
 
-    public void Enable()
+    public void Enable(bool enable)
     {
-        isEnable = true;
+        isEnable = enable;
+    }
+
+    public void setEatable(bool eatable)
+    {
+        isEatable = eatable;
+    }
+    public bool IsEatable()
+    {
+        return isEatable;
+    }
+
+    public void SetEatValue(int value)
+    {
+        EatValue = value;
+    }
+    public int GetEatVAlue()
+    {
+        return EatValue;
     }
 }

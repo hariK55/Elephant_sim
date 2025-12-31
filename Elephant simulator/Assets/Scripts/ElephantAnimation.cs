@@ -63,9 +63,20 @@ public class ElephantAnimation : MonoBehaviour
     {
         animator.SetTrigger("drop");
     }
-    public void eatAnim()
+    public void eatAnim(bool iseating)
     {
-        animator.SetTrigger("eat");
+        animator.SetBool("eat",iseating);
     }
-
+    public void PushAnim(bool isPush)
+    {
+        animator.SetBool("isPushing", isPush);
+    }
+    public bool getPushing()
+    {
+        return animator.GetBool("isPushing");
+    }
+    public void IsCane(bool isCane)
+    {
+        animator.SetBool("isCane", isCane);
+    }
 }

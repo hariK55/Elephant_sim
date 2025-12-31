@@ -37,6 +37,9 @@ public class Input : MonoBehaviour
 
     InputSystem inputActions;
 
+   /* float maxtime = 2.5f;
+    float currentT;*/
+
     private void Awake()
     {
         Instance = this;
@@ -67,8 +70,9 @@ public class Input : MonoBehaviour
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         RapidPressMechanic.Instance.OnMash();
+       
     }
-
+    
     private void Eat_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         EatUI.Instance.OnHoldCanceled();
@@ -105,6 +109,15 @@ public class Input : MonoBehaviour
         StickToSlope();
         AlignRotationToSlope();
         CheckSlopeStatus();
+
+        if (isSteepSlope)
+        {
+            moveSpeed = 4f;
+        }
+        else
+        {
+            moveSpeed = 2.3f;
+        }
     }
 
     // ---------------------------------------------------

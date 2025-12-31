@@ -30,6 +30,9 @@ public class RapidPressMechanic : MonoBehaviour
     private Rigidbody rb;
     private Gamepad gamepad;
 
+    private float lastMashTime;
+    public float mashTimeout = 0.25f;
+
     void Awake()
     {
         Instance = this;
@@ -55,6 +58,14 @@ public class RapidPressMechanic : MonoBehaviour
 
         UpdateUI();
         UpdateVibration();
+
+        if (ElephantAnimation.Instance.getPushing())
+        {
+            if (Time.time - lastMashTime > mashTimeout)
+            {
+                ElephantAnimation.Instance.PushAnim(false);
+            }
+        }
     }
 
     // 🔹 Called by Input (button mash)
@@ -69,7 +80,12 @@ public class RapidPressMechanic : MonoBehaviour
 
         if (progressSlider != null)
             progressSlider.gameObject.SetActive(true);
-        if(Input.Instance.IsRunning())
+
+        ElephantAnimation.Instance.PushAnim(true);
+        lastMashTime = Time.time;
+      //  currentTree.PushTree(GetPushDirection(), 3f);
+        // LoopManager.Instance.Loop();
+        if (Input.Instance.IsRunning())
         {
             progress += pressAmount+1.2f;
         }
@@ -80,11 +96,14 @@ public class RapidPressMechanic : MonoBehaviour
        
         progress = Mathf.Clamp(progress, 0, maxProgress+1f);
 
+       
         if (progress >= maxProgress)
         {
             completed = true;
             currentTree.FallDown(GetPushDirection());
             OnCompleted();
+            ElephantAnimation.Instance.PushAnim(false);
+
         }
     }
 
@@ -112,7 +131,7 @@ public class RapidPressMechanic : MonoBehaviour
     private void OnCompleted()
     {
         Debug.Log("Mash Completed!");
-
+        LoopManager.Instance.StopLoop();
         StopVibration();
 
         if (progressSlider != null)
@@ -169,6 +188,7 @@ public class RapidPressMechanic : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Tree"))
         {
+           // LoopManager.Instance.Loop("fight", 0.3f, 0.7f);
             currentTree = collision.gameObject.GetComponent<PushableTree>();
             canPush = true;
             progress = 0f;
@@ -187,6 +207,7 @@ public class RapidPressMechanic : MonoBehaviour
             if (progressSlider != null)
                 progressSlider.gameObject.SetActive(false);
 
+           
             StopVibration();
         }
     }

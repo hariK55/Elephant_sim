@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Windows;
 
-
+#region IInteractable
 public interface Iinteractable
 {
     void Interact();
@@ -14,6 +14,8 @@ public interface Iinteractable
 
     Transform transform { get; }
 }
+
+# endregion
 
 public class PlayerInteractor : MonoBehaviour
 {
@@ -60,6 +62,7 @@ public class PlayerInteractor : MonoBehaviour
             focused.Interact();
 
             heldObject = ((MonoBehaviour)focused).gameObject;
+          
             PickObject(heldObject);
 
         }
@@ -70,13 +73,16 @@ public class PlayerInteractor : MonoBehaviour
         Iinteractable nearest = FindNearestInteractable();
         
         UpdateFocus(nearest);
-        
-       /* if(focused!=null && )
-        {
-            if (focused.CanInteract()) focused.Interact();
-           
-        }
-       */
+
+        /* if(focused!=null && )
+         {
+             if (focused.CanInteract()) focused.Interact();
+
+         }
+        */
+        // Stop animation if mash input stopped
+      
+
     }
     private Iinteractable FindNearestInteractable()
     {
@@ -132,13 +138,17 @@ public class PlayerInteractor : MonoBehaviour
 
     public void PickObject(GameObject obj)
     {
-        
-        //heldObject = obj;
 
-        // Disable physics while holding
+        //heldObject = obj;
+        ElephantAnimation.Instance.eatAnim(false);
+        // Disable physics while holdin
+        Collider col = obj.GetComponent<Collider>();
+        if (col != null)
+            col.enabled = false;
+
         Rigidbody rb = obj.GetComponent<Rigidbody>();
         rb.isKinematic = true;
-
+       
         // Attach object to hand/hold point
         obj.transform.SetParent(holdPoint, false);
         obj.transform.localPosition = Vector3.zero;
@@ -150,7 +160,7 @@ public class PlayerInteractor : MonoBehaviour
         if (heldObject == null) return;
         // Detach
         heldObject.transform.SetParent(null);
-
+        heldObject.GetComponent<Collider>().enabled = true;
         // Re-enable physics
         Rigidbody rb = heldObject.GetComponent<Rigidbody>();
         rb.isKinematic = false;
@@ -160,5 +170,17 @@ public class PlayerInteractor : MonoBehaviour
     public bool HasObject()
     {
         return heldObject != null;
+    }
+    public bool isEatable()
+    {
+        if (heldObject== null) return false;
+        return heldObject.GetComponent<Interactable>().IsEatable();
+    }
+    public void OnEat()
+    {
+        HungerUI.instance.AddFood(heldObject.GetComponent<Interactable>().GetEatVAlue());
+        UpdateFocus(null);
+        heldObject.SetActive(false);
+        heldObject = null;
     }
 }

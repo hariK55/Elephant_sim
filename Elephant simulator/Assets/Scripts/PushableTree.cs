@@ -7,14 +7,21 @@ public class PushableTree : MonoBehaviour
     public float fallTorque = 5f;
 
     private bool pushed = false;
-
+    Interactable interactable;
     void Awake()
     {
         if (rb == null)
             rb = GetComponent<Rigidbody>();
-
+        interactable= GetComponent<Interactable>();
         rb.isKinematic = true; // stays still until pushed
     }
+
+    private void Start()
+    {
+       interactable.setEatable(false);
+        interactable.Enable(false);
+    }
+
 
     // Called continuously while mashing (small shake)
     public void PushTree(Vector3 pushDirection, float strength)
@@ -32,11 +39,13 @@ public class PushableTree : MonoBehaviour
 
         pushed = true;
         rb.isKinematic = false;
-
+        interactable.Enable(true);
         // Push away from player
         rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
 
         // Add torque so it topples naturally
         rb.AddTorque(Vector3.Cross(Vector3.up, pushDirection) * fallTorque, ForceMode.Impulse);
+
+        
     }
 }

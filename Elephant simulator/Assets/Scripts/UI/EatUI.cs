@@ -19,15 +19,17 @@ public class EatUI: MonoBehaviour
 
     void Update()
     {
-        if (isHolding)
+        if (isHolding && PlayerInteractor.Instance.isEatable())
         {
+           
             holdTimer += Time.deltaTime;
             fillCircle.fillAmount = holdTimer / holdDuration;
-
+           
             if (holdTimer >= holdDuration)
             {
-
-                ElephantAnimation.Instance.eatAnim();
+                ElephantAnimation.Instance.eatAnim(true);
+                PlayerInteractor.Instance.OnEat();
+               
                 ResetHold();
             }
         }
@@ -52,5 +54,6 @@ public class EatUI: MonoBehaviour
     public void OnHoldCanceled()
     {
         ResetHold();
+       // ElephantAnimation.Instance.eatAnim(false);
     }
 }
