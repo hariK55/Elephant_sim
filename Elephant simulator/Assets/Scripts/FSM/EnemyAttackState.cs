@@ -7,6 +7,7 @@ public class EnemyAttackState : EnemyState
     public override void Enter()
     {
         enemy.agent.isStopped = true;
+      
     }
 
     public override void Update()
@@ -24,6 +25,7 @@ public class EnemyAttackState : EnemyState
         if (Time.time >= enemy.lastAttackTime + enemy.attackCooldown)
         {
             Debug.Log("Attack!");
+            enemy.animator.SetTrigger("attack");
             enemy.lastAttackTime = Time.time;
         }
     }

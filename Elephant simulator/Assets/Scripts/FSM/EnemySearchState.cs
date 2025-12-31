@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Linq;
 
 public class EnemySearchState : EnemyState
 {
@@ -13,6 +14,8 @@ public class EnemySearchState : EnemyState
 
     public override void Enter()
     {
+        enemy.agent.speed = 4f;
+        enemy.animator.SetBool("isSearching", true);
         Debug.Log("searching");
         enemy.agent.isStopped = false;
         MoveNext();
@@ -26,7 +29,7 @@ public class EnemySearchState : EnemyState
             return;
         }
 
-        if (!enemy.agent.pathPending && enemy.agent.remainingDistance < 5f)
+        if (!enemy.agent.pathPending && enemy.agent.remainingDistance < enemy.agent.stoppingDistance)
         {
             if (searchQueue.Count > 0)
                 MoveNext();
@@ -37,6 +40,7 @@ public class EnemySearchState : EnemyState
 
     void MoveNext()
     {
+        if(searchQueue.Count!=0)
         enemy.agent.SetDestination(searchQueue.Dequeue());
     }
 

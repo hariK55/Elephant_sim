@@ -6,8 +6,9 @@ public class EnemyAI : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform player;
+    public Animator animator;
+    public float chaseSpeed = 6.5f;
 
-  
     [Header("Patrol")]
     public Transform[] patrolPoints;
     public float minWaitTime = 1f;
@@ -38,7 +39,10 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+
         agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation =false;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         SwitchState(new EnemyPatrolState(this));
     }
@@ -46,7 +50,21 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         currentState.Update();
+        UpdateAnimator();
+     //   Debug.Log("SpeedParam: " + animator.GetFloat("speed"));
+
     }
+
+    void LateUpdate()
+    {
+        if (agent.velocity.sqrMagnitude > 0.1f)
+        {
+            Quaternion rot = Quaternion.LookRotation(agent.velocity.normalized);
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 8f);
+        }
+    }
+
 
     public void SwitchState(EnemyState newState)
     {
@@ -95,6 +113,16 @@ public class EnemyAI : MonoBehaviour
         return nearest;
     }
 
+    void UpdateAnimator()
+    {
+        float speed01 = Mathf.Clamp01(
+            agent.desiredVelocity.magnitude / chaseSpeed
+        );
+
+        animator.SetFloat("speed", speed01,0.15f,Time.deltaTime);
+    }
+
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -108,7 +136,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 left = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
         Vector3 right = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
 
-        Gizmos.DrawLine(transform.position, transform.position + left * 5f);
-        Gizmos.DrawLine(transform.position, transform.position + right * 5f);
+        Gizmos.DrawLine(transform.position, transform.position + left * 20f);
+        Gizmos.DrawLine(transform.position, transform.position + right * 20f);
     }
 }

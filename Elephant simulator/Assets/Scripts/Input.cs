@@ -5,6 +5,8 @@ public class Input : MonoBehaviour
 {
     [SerializeField]
     public bool isInteract;
+    [SerializeField] private float walkSound = 10f;
+    [SerializeField] private float runSound = 20f;
 
 
     [Header("Slope Detection")]
@@ -98,7 +100,7 @@ public class Input : MonoBehaviour
     private void Sprint_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         speed = runSpeed;
-
+      
         isRunning = true;
     }
 
@@ -118,6 +120,13 @@ public class Input : MonoBehaviour
         {
             moveSpeed = 2.3f;
         }
+
+        
+         if(isRunning)
+            EnemySoundSystem.EmitSound(transform.position, runSound);
+        else if (isWalking)
+            EnemySoundSystem.EmitSound(transform.position, walkSound);
+
     }
 
     // ---------------------------------------------------
@@ -147,6 +156,7 @@ public class Input : MonoBehaviour
         // Character rotation
         if (moveDir.sqrMagnitude > 0.01f)
         {
+           
             Quaternion targetRot = Quaternion.LookRotation(moveDir);
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,

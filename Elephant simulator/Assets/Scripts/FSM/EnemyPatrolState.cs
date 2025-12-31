@@ -19,6 +19,8 @@ public class EnemyPatrolState : EnemyState
 
     public override void Enter()
     {
+        enemy.agent.speed = 3f;
+        enemy.animator.SetBool("isSearching", false);
         Debug.Log("patrolling");
         patrolIndex = enemy.patrolIndex;
         patrolDirection = enemy.patrolDirection;

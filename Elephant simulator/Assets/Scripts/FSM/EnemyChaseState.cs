@@ -8,11 +8,20 @@ public class EnemyChaseState : EnemyState
     {
         Debug.Log("chasing");
         enemy.agent.isStopped = false;
+        enemy.agent.speed = enemy.chaseSpeed;
+        enemy.animator.SetBool("isSearching", false);
     }
-
+    float repathDistance = 1f;
     public override void Update()
     {
-        enemy.agent.SetDestination(enemy.player.position);
+       
+
+        if (Vector3.Distance(enemy.agent.destination, enemy.player.position) > repathDistance)
+        {
+            enemy.agent.SetDestination(enemy.player.position);
+        }
+
+       // enemy.agent.SetDestination(enemy.player.position);
 
         float dist = Vector3.Distance(enemy.transform.position, enemy.player.position);
 
@@ -28,5 +37,7 @@ public class EnemyChaseState : EnemyState
         }
     }
 
-    public override void Exit() { }
+    public override void Exit() {
+        
+    }
 }

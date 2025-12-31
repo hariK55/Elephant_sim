@@ -178,6 +178,7 @@ public class PlayerInteractor : MonoBehaviour
     }
     public void OnEat()
     {
+        EnemySoundSystem.EmitSound(transform.position, 15f);
         HungerUI.instance.AddFood(heldObject.GetComponent<Interactable>().GetEatVAlue());
         UpdateFocus(null);
         heldObject.SetActive(false);

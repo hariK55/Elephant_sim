@@ -5,7 +5,7 @@ public class PushableTree : MonoBehaviour
     public Rigidbody rb;
     public float pushForce = 8f;
     public float fallTorque = 5f;
-
+    public float treeFallSound= 50f;
     private bool pushed = false;
     Interactable interactable;
     void Awake()
@@ -42,7 +42,7 @@ public class PushableTree : MonoBehaviour
         interactable.Enable(true);
         // Push away from player
         rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
-
+        EnemySoundSystem.EmitSound(transform.position, treeFallSound);
         // Add torque so it topples naturally
         rb.AddTorque(Vector3.Cross(Vector3.up, pushDirection) * fallTorque, ForceMode.Impulse);
 

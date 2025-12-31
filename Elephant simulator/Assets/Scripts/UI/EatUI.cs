@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class EatUI: MonoBehaviour
 {
-    public float holdDuration = 4.2f;   // How long you have to hold down
+    public float holdDuration = 6f;   // How long you have to hold down
     public Image fillCircle;
 
     private float holdTimer = 0f;
