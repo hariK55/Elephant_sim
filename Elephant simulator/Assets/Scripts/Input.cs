@@ -199,8 +199,8 @@ public class Input : MonoBehaviour
     // ---------------------------------------------------
     // Smoother slope alignment variables
     private Vector3 smoothedNormal = Vector3.up;
-    [SerializeField] private float normalSmoothSpeed = 2f;
-    [SerializeField] private float slopeRotationSmooth = 3f;
+    [SerializeField] private float normalSmoothSpeed = 5.25f;
+    [SerializeField] private float slopeRotationSmooth = 10.25f;
 
     private void AlignRotationToSlope()
     {

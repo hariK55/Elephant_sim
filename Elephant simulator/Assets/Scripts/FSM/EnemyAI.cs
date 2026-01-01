@@ -42,7 +42,8 @@ public class EnemyAI : MonoBehaviour
         animator = GetComponent<Animator>();
 
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation =false;
+        agent.updateRotation =true;
+        agent.updateUpAxis = false;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         SwitchState(new EnemyPatrolState(this));
     }
@@ -57,11 +58,68 @@ public class EnemyAI : MonoBehaviour
 
     void LateUpdate()
     {
+        
         if (agent.velocity.sqrMagnitude > 0.1f)
         {
+            AlignRotationToSlope();
             Quaternion rot = Quaternion.LookRotation(agent.velocity.normalized);
             transform.rotation =
                 Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 8f);
+        }
+    }
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float rayHeight = 0.5f;
+    [SerializeField] private float rayDistance = 2.5f;
+    [SerializeField] private float normalSmoothSpeed = 10f;
+    [SerializeField] private float slopeRotationSmooth = 8f;
+
+    private Vector3 smoothedNormal = Vector3.up;
+
+    private void AlignRotationToSlope()
+    {
+        Vector3 rayOrigin =
+            transform.position + Vector3.up * rayHeight;
+
+        Debug.DrawRay(
+            rayOrigin,
+            Vector3.down * rayDistance,
+            Color.blue
+        );
+
+        if (Physics.Raycast(
+            rayOrigin,
+            Vector3.down,
+            out RaycastHit hit,
+            rayDistance,
+            groundLayer))
+        {
+            // STEP 1: Smooth ground normal
+            smoothedNormal = Vector3.Slerp(
+                smoothedNormal,
+                hit.normal,
+                normalSmoothSpeed * Time.deltaTime
+            );
+
+            // STEP 2: Calculate slope rotation
+            Quaternion slopeRotation =
+                Quaternion.FromToRotation(transform.up, smoothedNormal) *
+                transform.rotation;
+
+            // STEP 3: Apply smoothly
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                slopeRotation,
+                slopeRotationSmooth * Time.deltaTime
+            );
+        }
+        else
+        {
+            // Return upright if no ground
+            smoothedNormal = Vector3.Slerp(
+                smoothedNormal,
+                Vector3.up,
+                normalSmoothSpeed * Time.deltaTime
+            );
         }
     }
 

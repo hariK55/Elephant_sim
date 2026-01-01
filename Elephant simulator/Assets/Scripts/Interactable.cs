@@ -11,7 +11,7 @@ public class Interactable : MonoBehaviour, Iinteractable
     [SerializeField] private int EatValue;
     private string displayStr = "Pick";
 
-    [SerializeField] private UnityEvent Oninteract;
+    //[SerializeField] private UnityEvent Oninteract;
 
     string Iinteractable.Display => displayStr;
 
@@ -28,8 +28,8 @@ public class Interactable : MonoBehaviour, Iinteractable
     }
     public void Interact()
     {
-       
-        Oninteract?.Invoke();
+        ElephantAnimation.Instance.pick();
+       // Oninteract?.Invoke();
       //  Input.Instance.isInteract = false;
     }
 
