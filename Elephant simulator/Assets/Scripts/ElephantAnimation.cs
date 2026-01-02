@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Security.Cryptography.X509Certificates;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ElephantAnimation : MonoBehaviour
@@ -9,6 +11,8 @@ public class ElephantAnimation : MonoBehaviour
     float start = 0.6f;
     float end = 0.6f;
     float currentT = 0.2f;
+
+    bool canMove = true;
 
     private void Awake()
     {
@@ -33,7 +37,7 @@ public class ElephantAnimation : MonoBehaviour
         animator.SetBool("isRunning", Input.Instance.IsRunning() && Input.Instance.IsWalking());
 
 
-       // animator.SetBool("isSliding", Input.Instance.isSlidingDownhill);
+       // animatorKumki.SetBool("isSliding", Input.Instance.isSlidingDownhill);
        //sliding animation
         if (Input.Instance.isSlidingDownhill && Input.Instance.IsRunning())
         {
@@ -79,4 +83,28 @@ public class ElephantAnimation : MonoBehaviour
     {
         animator.SetBool("isCane", isCane);
     }
+
+    public void Fall(bool isground)
+    {
+
+        animator.SetBool("fall", isground);
+        if(isground)
+        {
+            StartCoroutine(WaitForAnimation(7.5f));
+        }
+          
+    }
+
+    public bool getFalling()
+    {
+
+        return canMove;
+    }
+    IEnumerator WaitForAnimation(float duration)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(duration);
+        canMove = true;
+    }
+
 }

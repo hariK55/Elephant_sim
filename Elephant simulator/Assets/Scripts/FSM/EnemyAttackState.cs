@@ -25,7 +25,7 @@ public class EnemyAttackState : EnemyState
         if (Time.time >= enemy.lastAttackTime + enemy.attackCooldown)
         {
             Debug.Log("Attack!");
-            enemy.animator.SetTrigger("attack");
+            enemy.animatorKumki.SetTrigger("attack");
             enemy.lastAttackTime = Time.time;
         }
     }

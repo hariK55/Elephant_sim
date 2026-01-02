@@ -9,7 +9,7 @@ public class EnemyChaseState : EnemyState
         Debug.Log("chasing");
         enemy.agent.isStopped = false;
         enemy.agent.speed = enemy.chaseSpeed;
-        enemy.animator.SetBool("isSearching", false);
+        enemy.animatorKumki.SetBool("isSearching", false);
     }
     float repathDistance = 1f;
     public override void Update()

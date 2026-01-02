@@ -6,8 +6,8 @@ public class EnemyAI : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform player;
-    public Animator animator;
-    public float chaseSpeed = 6.5f;
+    public Animator animatorKumki;
+    public float chaseSpeed = 5.75f;
 
     [Header("Patrol")]
     public Transform[] patrolPoints;
@@ -39,7 +39,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animatorKumki = GetComponent<Animator>();
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation =true;
@@ -52,7 +52,7 @@ public class EnemyAI : MonoBehaviour
     {
         currentState.Update();
         UpdateAnimator();
-     //   Debug.Log("SpeedParam: " + animator.GetFloat("speed"));
+     //   Debug.Log("SpeedParam: " + animatorKumki.GetFloat("speed"));
 
     }
 
@@ -177,7 +177,7 @@ public class EnemyAI : MonoBehaviour
             agent.desiredVelocity.magnitude / chaseSpeed
         );
 
-        animator.SetFloat("speed", speed01,0.15f,Time.deltaTime);
+        animatorKumki.SetFloat("speed", speed01,0.15f,Time.deltaTime);
     }
 
 

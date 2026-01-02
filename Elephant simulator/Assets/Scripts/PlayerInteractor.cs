@@ -19,7 +19,7 @@ public interface Iinteractable
 
 public class PlayerInteractor : MonoBehaviour
 {
-    private GameObject heldObject;
+    private GameObject focusedObject;
     [SerializeField] private Transform holdPoint;
 
     [SerializeField] private float radius = 2f;
@@ -49,7 +49,7 @@ public class PlayerInteractor : MonoBehaviour
     private void Instance_OnInteractPressed(object sender, System.EventArgs e)
     {
         // CASE 1: Already holding something → DROP
-        if (heldObject != null)
+        if (focusedObject != null)
         {
             DropObject();
             ElephantAnimation.Instance.dropAnim();
@@ -60,10 +60,10 @@ public class PlayerInteractor : MonoBehaviour
         if (focused != null && focused.CanInteract())
         {
             focused.Interact();
+            focusedObject = ((MonoBehaviour)focused).gameObject;
 
-            heldObject = ((MonoBehaviour)focused).gameObject;
-          
-            PickObject(heldObject);
+
+            PickObject(focusedObject);
 
         }
     }
@@ -81,7 +81,10 @@ public class PlayerInteractor : MonoBehaviour
          }
         */
         // Stop animation if mash input stopped
-      
+        if (focused != null && focusedObject==null)
+        {
+           
+        }
 
     }
     private Iinteractable FindNearestInteractable()
@@ -139,7 +142,7 @@ public class PlayerInteractor : MonoBehaviour
     public void PickObject(GameObject obj)
     {
 
-        //heldObject = obj;
+        //focusedObject = obj;
         ElephantAnimation.Instance.eatAnim(false);
         // Disable physics while holdin
         Collider col = obj.GetComponent<Collider>();
@@ -157,31 +160,33 @@ public class PlayerInteractor : MonoBehaviour
 
     public void DropObject()
     {
-        if (heldObject == null) return;
+        if (focusedObject == null) return;
         // Detach
-        heldObject.transform.SetParent(null);
-        heldObject.GetComponent<Collider>().enabled = true;
+        focusedObject.transform.SetParent(null);
+        focusedObject.GetComponent<Collider>().enabled = true;
         // Re-enable physics
-        Rigidbody rb = heldObject.GetComponent<Rigidbody>();
+        Rigidbody rb = focusedObject.GetComponent<Rigidbody>();
         rb.isKinematic = false;
 
-        heldObject = null;
+        focusedObject = null;
     }
     public bool HasObject()
     {
-        return heldObject != null;
+        return focusedObject != null;
     }
     public bool isEatable()
     {
-        if (heldObject== null) return false;
-        return heldObject.GetComponent<Interactable>().IsEatable();
+        if (focusedObject== null) return false;
+        return focusedObject.GetComponent<Interactable>().IsEatable();
     }
     public void OnEat()
     {
         EnemySoundSystem.EmitSound(transform.position, 15f);
-        HungerUI.instance.AddFood(heldObject.GetComponent<Interactable>().GetEatVAlue());
+        HungerUI.instance.AddFood(focusedObject.GetComponent<Interactable>().GetEatVAlue());
         UpdateFocus(null);
-        heldObject.SetActive(false);
-        heldObject = null;
+        focusedObject.SetActive(false);
+        focusedObject = null;
     }
+
+   
 }

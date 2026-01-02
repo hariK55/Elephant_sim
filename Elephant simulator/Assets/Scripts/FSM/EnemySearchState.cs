@@ -15,7 +15,7 @@ public class EnemySearchState : EnemyState
     public override void Enter()
     {
         enemy.agent.speed = 4f;
-        enemy.animator.SetBool("isSearching", true);
+        enemy.animatorKumki.SetBool("isSearching", true);
         Debug.Log("searching");
         enemy.agent.isStopped = false;
         MoveNext();

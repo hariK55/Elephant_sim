@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Input : MonoBehaviour
@@ -23,13 +24,13 @@ public class Input : MonoBehaviour
 
     public event EventHandler OnInteractPressed;
 
-    [SerializeField] private float runSpeed = 6f;
-    [SerializeField] private float moveSpeed = 2.2f;
+    [SerializeField] private float runSpeed = 8f;
+    [SerializeField] private float walkSpeed = 3.2f;
     [SerializeField] private float rotationSpeed = 3f;
     [SerializeField] private float slopeStickForce = 3f;
    // [SerializeField] private float slopeAlignSpeed = 2f;
     [SerializeField] private Transform cameraTransform;
-
+    private float moveSpeed;
     private float speed;
     private Animator animator;
     private Rigidbody rb;
@@ -49,7 +50,7 @@ public class Input : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-
+        moveSpeed = walkSpeed;
         // Prevent the player from falling sideways
         rb.constraints = RigidbodyConstraints.FreezeRotationX |
                          RigidbodyConstraints.FreezeRotationZ;
@@ -118,7 +119,7 @@ public class Input : MonoBehaviour
         }
         else
         {
-            moveSpeed = 2.3f;
+            moveSpeed = walkSpeed;
         }
 
         
@@ -134,6 +135,10 @@ public class Input : MonoBehaviour
     // ---------------------------------------------------
     private void Movement()
     {
+        if (!isGrounded) return;
+
+        if (!ElephantAnimation.Instance.getFalling()) return;
+
         Vector2 moveInput = GetMovementVector();
 
         // Convert to world space using camera
@@ -257,9 +262,19 @@ public class Input : MonoBehaviour
             transform.position + Vector3.up * 0.5f,
             Vector3.down,
             out hit,
-            1.5f
+            7f
         );
+        //fall animation
+        if (!isGrounded)
+        {
+            ElephantAnimation.Instance.Fall(true);
 
+        }
+        else
+        {
+            ElephantAnimation.Instance.Fall(false);
+        }
+      
         if (!isGrounded)
         {
             isSteepSlope = false;
