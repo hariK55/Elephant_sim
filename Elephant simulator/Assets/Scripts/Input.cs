@@ -40,8 +40,11 @@ public class Input : MonoBehaviour
 
     InputSystem inputActions;
 
-   /* float maxtime = 2.5f;
-    float currentT;*/
+    public bool attackStarted;
+    public bool attackPerformed;
+    public bool attackCanceled;
+    /* float maxtime = 2.5f;
+     float currentT;*/
 
     private void Awake()
     {
@@ -68,12 +71,17 @@ public class Input : MonoBehaviour
         inputActions.Player.Eat.started += Eat_started;
         inputActions.Player.Eat.canceled += Eat_canceled;
         inputActions.Player.Attack.performed += Attack_performed;
+       
     }
+
+   
 
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         RapidPressMechanic.Instance.OnMash();
-       
+       // attackStarted = false;
+        attackPerformed = true;
+
     }
     
     private void Eat_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -112,6 +120,7 @@ public class Input : MonoBehaviour
         StickToSlope();
         AlignRotationToSlope();
         CheckSlopeStatus();
+        //HandleFallState();
 
         if (isSteepSlope)
         {
@@ -138,6 +147,8 @@ public class Input : MonoBehaviour
         if (!isGrounded) return;
 
         if (!ElephantAnimation.Instance.getFalling()) return;
+
+        if (ElephantAttack.Instance.IsCharging()) return;
 
         Vector2 moveInput = GetMovementVector();
 
@@ -168,7 +179,7 @@ public class Input : MonoBehaviour
                 targetRot,
                 rotationSpeed * Time.deltaTime
             );
-
+            if(isGrounded)
             isWalking = true;
         }
         else
@@ -253,6 +264,33 @@ public class Input : MonoBehaviour
 
     public bool IsRunning() => isRunning;
 
+  
+/*    bool wasGrounded;
+    bool isFalling;
+
+   
+
+    void HandleFallState()
+    {
+        // Detect transition: grounded → air
+        if (wasGrounded && !isGrounded)
+        {
+            isFalling = true;
+          //  animator.SetBool("isFalling", true);
+            ElephantAnimation.Instance.Fall(true);
+        }
+
+        // Detect landing
+        if (!wasGrounded && isGrounded)
+        {
+            isFalling = false;
+          //  animator.SetBool("isFalling", false);
+            ElephantAnimation.Instance.Fall(false);
+        }
+
+        wasGrounded = isGrounded;
+    }
+*/
     private void CheckSlopeStatus()
     {
         RaycastHit hit;
@@ -262,10 +300,10 @@ public class Input : MonoBehaviour
             transform.position + Vector3.up * 0.5f,
             Vector3.down,
             out hit,
-            7f
+            6f
         );
         //fall animation
-        if (!isGrounded)
+        if(!isGrounded)
         {
             ElephantAnimation.Instance.Fall(true);
 
@@ -274,7 +312,7 @@ public class Input : MonoBehaviour
         {
             ElephantAnimation.Instance.Fall(false);
         }
-      
+
         if (!isGrounded)
         {
             isSteepSlope = false;

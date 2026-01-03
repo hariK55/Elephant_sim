@@ -6,7 +6,7 @@ using UnityEngine;
 public class ElephantAnimation : MonoBehaviour
 {
     public static ElephantAnimation Instance { get; private set; }
-    private Animator animator;
+    public Animator animator;
 
     float start = 0.6f;
     float end = 0.6f;
@@ -84,20 +84,19 @@ public class ElephantAnimation : MonoBehaviour
         animator.SetBool("isCane", isCane);
     }
 
-    public void Fall(bool isground)
+    public void Fall(bool fall)
     {
 
-        animator.SetBool("fall", isground);
-        if(isground)
+        animator.SetBool("fall",fall);
+        if(fall)
         {
             StartCoroutine(WaitForAnimation(7.5f));
         }
-          
+         
     }
 
     public bool getFalling()
     {
-
         return canMove;
     }
     IEnumerator WaitForAnimation(float duration)
@@ -107,4 +106,13 @@ public class ElephantAnimation : MonoBehaviour
         canMove = true;
     }
 
+    public void Attack()
+    {
+        animator.SetTrigger("attack");
+    }
+
+    public void HoldAttack(bool holding)
+    {
+        animator.SetTrigger("holding");
+    }
 }

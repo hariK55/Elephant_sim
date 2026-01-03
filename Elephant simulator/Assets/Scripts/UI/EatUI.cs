@@ -14,7 +14,7 @@ public class EatUI: MonoBehaviour
 
     private void Awake()
     {
-        holdDuration = 7f;
+        holdDuration = 5.5f;
         Instance = this;
     }
 

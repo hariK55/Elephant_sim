@@ -36,6 +36,7 @@ public class EnemySearchState : EnemyState
             else
                 ReturnToPatrol();
         }
+
     }
 
     void MoveNext()
@@ -68,6 +69,8 @@ public class EnemySearchState : EnemyState
                 searchQueue.Enqueue(hit.position);
         }
     }
+
+   
 
     public override void Exit() { }
 }
