@@ -189,12 +189,12 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.blue;
 
         Vector3 left = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
         Vector3 right = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
 
-        Gizmos.DrawLine(transform.position, transform.position + left * 20f);
-        Gizmos.DrawLine(transform.position, transform.position + right * 20f);
+        Gizmos.DrawLine(transform.position, transform.position + left * viewRadius);
+        Gizmos.DrawLine(transform.position, transform.position + right * viewRadius);
     }
 }

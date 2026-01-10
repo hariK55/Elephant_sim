@@ -9,6 +9,7 @@ public class Input : MonoBehaviour
     [SerializeField] private float walkSound = 10f;
     [SerializeField] private float runSound = 20f;
 
+    public bool caught = false;
 
     [Header("Slope Detection")]
     [SerializeField] private float steepSlopeAngle = 30f;
@@ -92,6 +93,7 @@ public class Input : MonoBehaviour
     private void Eat_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         EatUI.Instance.OnHold();
+        SoundManager.instance.PlayOneShot(Sound.eatCane, 1f);
     }
 
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -116,6 +118,8 @@ public class Input : MonoBehaviour
     private void FixedUpdate()
     {
         //euler = slopeRotation.eulerAngles;
+        if (caught) return;
+
         Movement();
         StickToSlope();
         AlignRotationToSlope();

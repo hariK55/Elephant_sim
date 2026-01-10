@@ -48,6 +48,8 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Instance_OnInteractPressed(object sender, System.EventArgs e)
     {
+        if (Input.Instance.caught) return;
+
         // CASE 1: Already holding something → DROP
         if (focusedObject != null)
         {

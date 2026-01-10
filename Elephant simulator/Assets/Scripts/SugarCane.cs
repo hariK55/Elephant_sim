@@ -28,7 +28,7 @@ public class SugarCane : MonoBehaviour
         OnCanePicked?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         GetComponent<Interactable>().Enable(true);
         GetComponent<Rigidbody>().isKinematic =false;

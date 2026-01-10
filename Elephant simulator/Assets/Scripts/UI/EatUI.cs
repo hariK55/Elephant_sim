@@ -20,7 +20,7 @@ public class EatUI: MonoBehaviour
 
     void Update()
     {
-        if (isHolding && PlayerInteractor.Instance.isEatable())
+        if (isHolding && PlayerInteractor.Instance.isEatable() && !(Input.Instance.caught)) 
         {
            
             holdTimer += Time.deltaTime;
@@ -30,7 +30,7 @@ public class EatUI: MonoBehaviour
             {
                 ElephantAnimation.Instance.eatAnim(true);
                 PlayerInteractor.Instance.OnEat();
-               
+                SoundManager.instance.StopSound();
                 ResetHold();
             }
         }

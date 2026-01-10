@@ -4,10 +4,11 @@ public class EnemyAttackState : EnemyState
 {
     public EnemyAttackState(EnemyAI enemy) : base(enemy) { }
 
+   
     public override void Enter()
     {
         enemy.agent.isStopped = true;
-      
+        ElephantAnimation.Instance.Caught();
     }
 
     public override void Update()
@@ -22,11 +23,15 @@ public class EnemyAttackState : EnemyState
             return;
         }
 
-        if (Time.time >= enemy.lastAttackTime + enemy.attackCooldown)
+        if (true)
         {
             Debug.Log("Attack!");
             enemy.animatorKumki.SetTrigger("attack");
-            enemy.lastAttackTime = Time.time;
+            
+            Input.Instance.caught = true;
+
+            enemy.SwitchState(new EnemyIdleState(enemy));
+           
         }
     }
 

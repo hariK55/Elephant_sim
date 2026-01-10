@@ -29,15 +29,12 @@ public class ElephantAttack : MonoBehaviour
     {
         inputActions.Player.Attack.started += OnAttackStarted;
         inputActions.Player.Attack.canceled += OnAttackCanceled;
-        inputActions.Player.Attack.performed += Attack_performed;
+       
 
         inputActions.Enable();
     }
 
-    private void Attack_performed(InputAction.CallbackContext obj)
-    {
-      
-    }
+
 
     private void OnDisable()
     {
@@ -48,7 +45,7 @@ public class ElephantAttack : MonoBehaviour
     
     private void Update()
     {
-        if (isCharging)
+        if (isCharging && !Input.Instance.caught)
         {
             holdTime += Time.deltaTime;
             holdTime = Mathf.Clamp(holdTime, 0f, maxChargeTime);
@@ -58,8 +55,8 @@ public class ElephantAttack : MonoBehaviour
 
     private void OnAttackStarted(InputAction.CallbackContext ctx)
     {
-       
-      //  if (holding) return;   // prevent re-entry
+        if (Input.Instance.caught) return;
+        //  if (holding) return;   // prevent re-entry
 
         isCharging = true;
         holdTime = 0f;
@@ -73,6 +70,7 @@ public class ElephantAttack : MonoBehaviour
 
     private void OnAttackCanceled(InputAction.CallbackContext ctx)
     {
+        if (Input.Instance.caught) return;
         if (!isCharging) return;
 
 
@@ -85,7 +83,7 @@ public class ElephantAttack : MonoBehaviour
 
     void PerformAttack()
     {
-     
+        if (Input.Instance.caught) return;
 
         float chargePercent = holdTime / maxChargeTime;
         float force = Mathf.Lerp(minForce, maxForce, chargePercent);
@@ -102,6 +100,7 @@ public class ElephantAttack : MonoBehaviour
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
             if (rb != null)
             {
+
                 // Apply force
                 rb.AddForce(transform.forward * force, ForceMode.Impulse);
                 Debug.Log("hit");
@@ -109,6 +108,10 @@ public class ElephantAttack : MonoBehaviour
                 if (chargePercent > 0.6f)
                 {
                     rb.AddTorque(transform.right * flipTorque, ForceMode.Impulse);
+                }
+                else
+                {
+                    SoundManager.instance.PlayOneShot(Sound.hitCar,0.7f);
                 }
             }
         }

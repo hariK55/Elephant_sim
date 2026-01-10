@@ -28,7 +28,7 @@ public class ElephantAnimation : MonoBehaviour
     void FixedUpdate()
     {
         AnimationController();
-        //LoopAnim(0.6f, 0.6f, 0.2f, 0.2f, "startSlide", Input.Instance.isSlidingDownhill && Input.Instance.IsRunning());
+       
     }
     private void AnimationController()
     {
@@ -37,7 +37,7 @@ public class ElephantAnimation : MonoBehaviour
         animator.SetBool("isRunning", Input.Instance.IsRunning() && Input.Instance.IsWalking());
 
 
-       // animatorKumki.SetBool("isSliding", Input.Instance.isSlidingDownhill);
+       
        //sliding animation
         if (Input.Instance.isSlidingDownhill && Input.Instance.IsRunning())
         {
@@ -49,10 +49,13 @@ public class ElephantAnimation : MonoBehaviour
                 currentT = start;
 
             animator.Play("startSlide", 0, currentT);
+            //SoundManager.instance.PlayOneShot(Sound.slide, 0.5f);
         }
         else
         {
+
             currentT = 0.2f;
+            
         }
        
    
@@ -114,5 +117,10 @@ public class ElephantAnimation : MonoBehaviour
     public void HoldAttack(bool holding)
     {
         animator.SetTrigger("holding");
+    }
+
+    public void Caught()
+    {
+        animator.SetTrigger("caught");
     }
 }
