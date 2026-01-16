@@ -81,10 +81,10 @@ public class RapidPressMechanic : MonoBehaviour
         if (progressSlider != null)
             progressSlider.gameObject.SetActive(true);
 
+        SoundManager.instance.PlayOneShot(Sound.TreeShake, 0.5f);
         ElephantAnimation.Instance.PushAnim(true);
         lastMashTime = Time.time;
-      //  currentTree.PushTree(GetPushDirection(), 3f);
-        // LoopManager.Instance.Loop();
+     
         if (Input.Instance.IsRunning())
         {
             progress += pressAmount+1.2f;
@@ -165,24 +165,7 @@ public class RapidPressMechanic : MonoBehaviour
     }
 
     // 🔹 NEW: Movement toward tree check
-    private bool IsMovingTowardTree()
-    {
-        if (rb == null || currentTree == null)
-            return false;
-        Vector2 move = Input.Instance.GetMovementVector();
-        Vector3 velocity = new Vector3(move.x, 0, move.y);
-        velocity.y = 0f;
-
-        if (velocity.magnitude < 0.1f)
-            return false; // standing still
-
-        Vector3 moveDir = velocity.normalized;
-        Vector3 pushDir = GetPushDirection();
-        Debug.Log("pushdir:" + pushDir);
-        float dot = Vector3.Dot(moveDir, pushDir);
-        Debug.Log("dot:" + dot);
-        return dot > moveTowardThreshold;
-    }
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -207,7 +190,8 @@ public class RapidPressMechanic : MonoBehaviour
             if (progressSlider != null)
                 progressSlider.gameObject.SetActive(false);
 
-           
+
+            ElephantAnimation.Instance.PushAnim(false);
             StopVibration();
         }
     }

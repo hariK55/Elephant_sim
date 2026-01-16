@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Tree
+  - vehicle
   layers:
   - Default
   - TransparentFX

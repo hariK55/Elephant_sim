@@ -46,9 +46,10 @@ public class EatUI: MonoBehaviour
     }
     public void OnHold()
     {
-        if (PlayerInteractor.Instance.HasObject())
+        if (PlayerInteractor.Instance.HasObject() && !(Input.Instance.caught))
         {
             isHolding = true;
+            SoundManager.instance.PlayOneShot(Sound.eatCane, 0.5f);
         }
         else return;
     }

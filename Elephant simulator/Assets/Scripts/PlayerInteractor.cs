@@ -76,12 +76,7 @@ public class PlayerInteractor : MonoBehaviour
         
         UpdateFocus(nearest);
 
-        /* if(focused!=null && )
-         {
-             if (focused.CanInteract()) focused.Interact();
-
-         }
-        */
+        
         // Stop animation if mash input stopped
         if (focused != null && focusedObject==null)
         {

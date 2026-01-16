@@ -1,0 +1,37 @@
+# MTL file - created by a modified js OBJExporter
+
+newmtl bofy
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 0.5
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 1 1 1
+Ke 0 0 0
+map_Kd bofy.png
+
+newmtl 10454_Sugarcane_Field_v1.002
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 0.894591
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 1 1 1
+Ke 0 0 0
+map_Kd 10454_Sugarcane_Field_v1.002.png
+
+newmtl root.001
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 1
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 1 1 1
+Ke 0 0 0
+map_Kd root.001.png

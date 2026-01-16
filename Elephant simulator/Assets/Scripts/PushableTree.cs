@@ -37,6 +37,7 @@ public class PushableTree : MonoBehaviour
     {
         if (pushed) return;
 
+        SoundManager.instance.PlayOneShot(Sound.TreeFall, 0.7f);
         pushed = true;
         rb.isKinematic = false;
         interactable.Enable(true);

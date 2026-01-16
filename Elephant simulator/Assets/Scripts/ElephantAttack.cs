@@ -107,11 +107,14 @@ public class ElephantAttack : MonoBehaviour
                 // Flip on charged attack
                 if (chargePercent > 0.6f)
                 {
+                    if (rb.gameObject.CompareTag("vehicle"))
+                        SoundManager.instance.PlayOneShot(Sound.heavyHit, 0.7f);
                     rb.AddTorque(transform.right * flipTorque, ForceMode.Impulse);
                 }
                 else
                 {
-                    SoundManager.instance.PlayOneShot(Sound.hitCar,0.7f);
+                    if(rb.gameObject.CompareTag("vehicle"))
+                    SoundManager.instance.PlayOneShot(Sound.hitCar,0.5f);
                 }
             }
         }

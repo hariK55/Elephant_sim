@@ -93,7 +93,7 @@ public class Input : MonoBehaviour
     private void Eat_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         EatUI.Instance.OnHold();
-        SoundManager.instance.PlayOneShot(Sound.eatCane, 1f);
+       
     }
 
     private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

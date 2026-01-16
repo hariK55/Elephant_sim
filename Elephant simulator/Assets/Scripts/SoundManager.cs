@@ -8,6 +8,10 @@ public enum Sound
     eatCane,
     footstep,
     slide,
+    TreeShake,
+    TreeFall,
+    heavyHit,
+    drop,
 }
 
 
@@ -28,10 +32,6 @@ public class SoundManager : MonoBehaviour
         instance = this;
     }
 
-    private void Start()
-    {
-       
-    }
 
     public void PlayOneShot(Sound sound,float volume)
     {
