@@ -79,13 +79,11 @@ public class PlayerInteractor : MonoBehaviour
         
         UpdateFocus(nearest);
 
-        
-        // Stop animation if mash input stopped
-        if (focused != null && focusedObject==null)
-        {
-           
-        }
 
+        if (focusedObject!=null && focusedObject.GetComponent<PushableTree>())
+        {
+                       Input.Instance.StopRunning();
+        }
     }
     private Iinteractable FindNearestInteractable()
     {
@@ -145,7 +143,11 @@ public class PlayerInteractor : MonoBehaviour
         //focusedObject = obj;
         ElephantAnimation.Instance.eatAnim(false);
 
-        SoundManager.Instance.PlaySfx(Sound.pickCane, 0.3f);
+        if(obj.GetComponent<SugarCane>())
+            SoundManager.Instance.PlaySfx(Sound.drop, 1f);
+
+        if (obj.GetComponent<PushableTree>())
+            SoundManager.Instance.PlaySfx(Sound.thud, 0.5f);
 
         // Disable physics while holdin
         Collider col = obj.GetComponent<Collider>();
@@ -163,11 +165,21 @@ public class PlayerInteractor : MonoBehaviour
 
     public void DropObject()
     {
+        if  (focusedObject!=null &&  focusedObject.GetComponent<PushableTree>())
+            SoundManager.Instance.PlaySfx(Sound.thud, 0.5f);
+
+        if (focusedObject != null && focusedObject.GetComponent<SugarCane>())
+            SoundManager.Instance.PlaySfx(Sound.drop, 1f);
+
+
         if (focusedObject == null) return;
         // Detach
-        SoundManager.Instance.PlaySfx(Sound.pickCane, 0.3f);
+       
+
         focusedObject.transform.SetParent(null);
         focusedObject.GetComponent<Collider>().enabled = true;
+       
+       
         // Re-enable physics
         Rigidbody rb = focusedObject.GetComponent<Rigidbody>();
         rb.isKinematic = false;

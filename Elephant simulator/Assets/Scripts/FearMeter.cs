@@ -9,21 +9,21 @@ public class FearMeter : MonoBehaviour
     public static FearMeter Instance { get; private set; }
 
     [Header("Fear Settings")]
-    public float fear = 0f;
-    public float maxFear = 100f;
-    public float fearIncreaseRate = 20f;
-    public float fearDecreaseRate = 10f;
+    [SerializeField] private float fear = 0f;
+    [SerializeField] private float maxFear = 100f;
+    [SerializeField] private float fearIncreaseRate = 20f;
+    [SerializeField] private float fearDecreaseRate = 10f;
   //  [SerializeField] private float drainRate=0.7f;
     [Header("References")]
-    public Slider fearSlider;
-    public Image fearOverlay;
+    [SerializeField] private Slider fearSlider;
+    [SerializeField] private Image fearOverlay;
    
 
     private bool nearFearSource;
     private float proximityMultiplier = 0.2f;
 
 
-    public Volume volume;
+    [SerializeField] private Volume volume;
 
    // Bloom bloom;
     Vignette vignette;
@@ -88,7 +88,7 @@ public class FearMeter : MonoBehaviour
         if (fear >= maxFear)
         {
             HungerUI.instance.drainPerSecond =0.8f;
-            fearOverlay.color = Color.black;
+            fearOverlay.color = Color.brown;
 
             AnxiousMusic();
         }
@@ -136,5 +136,8 @@ public class FearMeter : MonoBehaviour
            // SoundManager.Instance.FadeIn(5f);
     }
 
-
+    public void resetFear()
+    {
+        fear = 0f;
+    }
 }

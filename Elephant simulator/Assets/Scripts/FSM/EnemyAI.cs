@@ -36,7 +36,7 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public Vector3 heardSoundPosition;
 
     EnemyState currentState;
-  
+    AudioSource audiosrc;
     public static EnemyAI instance { get; private set; }
 
     private void Awake()
@@ -47,7 +47,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         animatorKumki = GetComponent<Animator>();
-
+        audiosrc = GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation =true;
         agent.updateUpAxis = false;
@@ -185,6 +185,19 @@ public class EnemyAI : MonoBehaviour
         );
 
         animatorKumki.SetFloat("speed", speed01,0.15f,Time.deltaTime);
+
+        float speed = animatorKumki.GetFloat("speed");
+
+        if (speed > 0.1f )
+        {
+           
+           audiosrc.Play();
+        }
+        else
+        {
+            audiosrc.Pause();
+        }
+       
     }
 
 

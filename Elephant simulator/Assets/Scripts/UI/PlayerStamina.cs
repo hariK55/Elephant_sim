@@ -36,7 +36,13 @@ public class PlayerStamina : MonoBehaviour
         staminaSlider.maxValue = maxStamina;
         staminaSlider.value = maxStamina;
 
+        PlayerInteractor.Instance.Eated += PlayerInteractor_Eated;
        
+    }
+
+    private void PlayerInteractor_Eated(object sender, System.EventArgs e)
+    {
+        currentStamina = maxStamina;
     }
 
     void Update()
@@ -75,10 +81,7 @@ public class PlayerStamina : MonoBehaviour
         {
             canRun = false;
         }
-        /* else
-         {
-             canRun = true;
-         }*/
+        
         if (currentStamina > 30) fill.color = Color.yellow;
     }
 

@@ -17,7 +17,7 @@ public enum Sound
     attack,
     pickCane,
     kumkiFootstep,
-
+    thud,
 }
 
 public enum Music
