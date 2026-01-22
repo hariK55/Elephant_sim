@@ -32,5 +32,6 @@ public class SugarCane : MonoBehaviour
     {
         GetComponent<Interactable>().Enable(true);
         GetComponent<Rigidbody>().isKinematic =false;
+        SoundManager.Instance.PlaySfx(Sound.TreeShake, 0.05f);
     }
 }

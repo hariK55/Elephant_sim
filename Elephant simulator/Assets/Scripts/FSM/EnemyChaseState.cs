@@ -10,6 +10,12 @@ public class EnemyChaseState : EnemyState
         enemy.agent.isStopped = false;
         enemy.agent.speed = enemy.chaseSpeed;
         enemy.animatorKumki.SetBool("isSearching", false);
+        // SoundManager.Instance.StopMusic();
+        if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
+            SoundManager.Instance.StopMusic();
+
+        SoundManager.Instance.PlayMusic(Music.chase, 0.3f);
+        
     }
     float repathDistance = 1f;
     public override void Update()
@@ -33,11 +39,12 @@ public class EnemyChaseState : EnemyState
 
         if (!enemy.CanSeePlayer())
         {
-            enemy.SwitchState(new EnemySearchState(enemy, enemy.lastKnownPosition));
+
+            enemy.SwitchState(new EnemySearchState(enemy, enemy.lastKnownPosition));      
         }
     }
 
     public override void Exit() {
-        
+       
     }
 }

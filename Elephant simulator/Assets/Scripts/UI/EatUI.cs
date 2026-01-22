@@ -30,7 +30,7 @@ public class EatUI: MonoBehaviour
             {
                 ElephantAnimation.Instance.eatAnim(true);
                 PlayerInteractor.Instance.OnEat();
-                SoundManager.instance.StopSound();
+                SoundManager.Instance.StopSound();
                 ResetHold();
             }
         }
@@ -46,16 +46,17 @@ public class EatUI: MonoBehaviour
     }
     public void OnHold()
     {
-        if (PlayerInteractor.Instance.HasObject() && !(Input.Instance.caught))
+        if (PlayerInteractor.Instance.isEatable() && !(Input.Instance.caught))
         {
             isHolding = true;
-            SoundManager.instance.PlayOneShot(Sound.eatCane, 0.5f);
+            SoundManager.Instance.PlaySfx(Sound.eatCane, 0.5f);
         }
         else return;
     }
     public void OnHoldCanceled()
     {
         ResetHold();
-       // ElephantAnimation.Instance.eatAnim(false);
+        SoundManager.Instance.StopSound();
+        // ElephantAnimation.Instance.eatAnim(false);
     }
 }

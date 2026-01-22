@@ -19,6 +19,7 @@ public class EnemyPatrolState : EnemyState
 
     public override void Enter()
     {
+        SoundManager.Instance.FadeOut(15f);
         enemy.agent.speed = 3f;
         enemy.animatorKumki.SetBool("isSearching", false);
         Debug.Log("patrolling");

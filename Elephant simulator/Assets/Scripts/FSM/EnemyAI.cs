@@ -36,6 +36,13 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public Vector3 heardSoundPosition;
 
     EnemyState currentState;
+  
+    public static EnemyAI instance { get; private set; }
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {

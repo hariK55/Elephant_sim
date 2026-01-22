@@ -10,6 +10,7 @@ public class EnemySearchState : EnemyState
     public EnemySearchState(EnemyAI enemy, Vector3 center) : base(enemy)
     {
         GenerateSearchPoints(center);
+       
     }
 
     public override void Enter()
@@ -72,5 +73,8 @@ public class EnemySearchState : EnemyState
 
    
 
-    public override void Exit() { }
+    public override void Exit() {
+
+       
+    }
 }

@@ -16,7 +16,7 @@ public class HungerUI : MonoBehaviour
 
     #endregion
 
-    public float drainPerSecond = 0.02f;
+    public float drainPerSecond;
 
     void Update()
     {
@@ -26,17 +26,14 @@ public class HungerUI : MonoBehaviour
 
         if (PlayerInteractor.Instance.HasObject() || Input.Instance.IsRunning())
         {
-            drainPerSecond = 0.04f;
+            drainPerSecond = 0.07f;
         }
-        else
-        {
-            drainPerSecond = 0.02f;
-        }
+       
     }
    
     private void Start()
     {
-        slider.value = 10;
+        slider.value = 30;
     }
     public void AddFood(int value)
     {

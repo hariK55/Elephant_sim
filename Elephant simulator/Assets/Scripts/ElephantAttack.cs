@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class ElephantAttack : MonoBehaviour
 {
 
-    public static ElephantAttack Instance;
+    public static ElephantAttack Instance { get; private set; }
 
     [Header("Attack Settings")]
     public float minForce = 5f;
@@ -84,6 +84,7 @@ public class ElephantAttack : MonoBehaviour
     void PerformAttack()
     {
         if (Input.Instance.caught) return;
+        SoundManager.Instance.PlaySfx(Sound.attack, 1f);
 
         float chargePercent = holdTime / maxChargeTime;
         float force = Mathf.Lerp(minForce, maxForce, chargePercent);
@@ -108,14 +109,18 @@ public class ElephantAttack : MonoBehaviour
                 if (chargePercent > 0.6f)
                 {
                     if (rb.gameObject.CompareTag("vehicle"))
-                        SoundManager.instance.PlayOneShot(Sound.heavyHit, 0.7f);
+                        SoundManager.Instance.PlaySfx(Sound.heavyHit, 0.7f);
                     rb.AddTorque(transform.right * flipTorque, ForceMode.Impulse);
                 }
                 else
                 {
                     if(rb.gameObject.CompareTag("vehicle"))
-                    SoundManager.instance.PlayOneShot(Sound.hitCar,0.5f);
+                    SoundManager.Instance.PlaySfx(Sound.hitCar,0.5f);
                 }
+            }
+            else
+            {
+                
             }
         }
     }

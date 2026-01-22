@@ -1,6 +1,7 @@
 using System;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Input : MonoBehaviour
 {
@@ -72,11 +73,40 @@ public class Input : MonoBehaviour
         inputActions.Player.Eat.started += Eat_started;
         inputActions.Player.Eat.canceled += Eat_canceled;
         inputActions.Player.Attack.performed += Attack_performed;
-       
+        inputActions.Player.Trumpet.performed += Trumpet_performed;
+        
     }
 
    
 
+    private void OnDisable()
+    {
+        inputActions.Player.Sprint.performed -= Sprint_performed;
+        inputActions.Player.Sprint.canceled -= Sprint_canceled;
+        inputActions.Player.Interact.performed -= Interact_performed;
+        //inputActions.Player.Interact.canceled += Interact_canceled;
+        inputActions.Player.Eat.started -= Eat_started;
+        inputActions.Player.Eat.canceled -= Eat_canceled;
+        inputActions.Player.Attack.performed -= Attack_performed;
+        inputActions.Player.Trumpet.performed -= Trumpet_performed;
+        
+        inputActions.Player.Disable();
+    }
+    private void Trumpet_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (caught) return;
+        if (!obj.performed) return;
+
+        if (SoundManager.Instance == null)
+        {
+            Debug.LogWarning("SoundManager is NULL when Trumpet pressed");
+            return;
+        }
+        ElephantAnimation.Instance.Trumpet();
+        SoundManager.Instance.PlaySfx(Sound.Trumpet, 1f);
+        PlayerInteractor.Instance.DropObject();
+        EnemyAI.instance.HearSound(transform.position);
+    }
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         RapidPressMechanic.Instance.OnMash();
@@ -104,15 +134,13 @@ public class Input : MonoBehaviour
 
     private void Sprint_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        speed = moveSpeed;
-        isRunning = false;
+        StopRunning();
+        
     }
 
     private void Sprint_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        speed = runSpeed;
-      
-        isRunning = true;
+        StartRunning();
     }
 
     private void FixedUpdate()
@@ -120,11 +148,19 @@ public class Input : MonoBehaviour
         //euler = slopeRotation.eulerAngles;
         if (caught) return;
 
+        
         Movement();
         StickToSlope();
         AlignRotationToSlope();
         CheckSlopeStatus();
-        //HandleFallState();
+        
+        soundEmit();
+
+        if (!PlayerStamina.Instance.hasStamina())
+            StopRunning();
+       else if(isSprintPressed())
+            StartRunning();
+
 
         if (isSteepSlope)
         {
@@ -135,17 +171,47 @@ public class Input : MonoBehaviour
             moveSpeed = walkSpeed;
         }
 
-        
-         if(isRunning)
+
+       
+    }
+    private void soundEmit()
+    {
+
+        if (isRunning)
             EnemySoundSystem.EmitSound(transform.position, runSound);
         else if (isWalking)
             EnemySoundSystem.EmitSound(transform.position, walkSound);
+    }
+
+    public void StopRunning()
+    {
+        
+            speed = moveSpeed;
+
+            isRunning = false;
+
+         
 
     }
 
+    public void StartRunning()
+    {
+       
+            speed = runSpeed;
+
+            isRunning = true;
+       
+    }
     // ---------------------------------------------------
     // CAMERA-RELATIVE MOVEMENT
     // ---------------------------------------------------
+
+    public bool isSprintPressed()
+    {
+        return inputActions.Player.Sprint.IsPressed();
+
+
+     }  
     private void Movement()
     {
         if (!isGrounded) return;

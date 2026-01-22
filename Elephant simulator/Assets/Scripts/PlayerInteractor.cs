@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Windows;
 
 #region IInteractable
@@ -27,6 +28,8 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private LayerMask interactableLayers;
 
     public static PlayerInteractor Instance { get; private set; }
+
+    public event EventHandler Eated;
 
     [SerializeField]
     private InteractPrompt prompt;
@@ -141,6 +144,9 @@ public class PlayerInteractor : MonoBehaviour
 
         //focusedObject = obj;
         ElephantAnimation.Instance.eatAnim(false);
+
+        SoundManager.Instance.PlaySfx(Sound.pickCane, 0.3f);
+
         // Disable physics while holdin
         Collider col = obj.GetComponent<Collider>();
         if (col != null)
@@ -159,6 +165,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (focusedObject == null) return;
         // Detach
+        SoundManager.Instance.PlaySfx(Sound.pickCane, 0.3f);
         focusedObject.transform.SetParent(null);
         focusedObject.GetComponent<Collider>().enabled = true;
         // Re-enable physics
@@ -180,9 +187,14 @@ public class PlayerInteractor : MonoBehaviour
     {
         EnemySoundSystem.EmitSound(transform.position, 15f);
         HungerUI.instance.AddFood(focusedObject.GetComponent<Interactable>().GetEatVAlue());
+
+        Eated?.Invoke(this, EventArgs.Empty);
+
         UpdateFocus(null);
         focusedObject.SetActive(false);
         focusedObject = null;
+
+       
     }
 
    

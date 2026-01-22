@@ -5,12 +5,12 @@ public class PlayerSound : MonoBehaviour
     bool isSliding;
    public void Footstep()
     {
-        SoundManager.instance.PlayOneShot(Sound.footstep, 0.3f);
+        SoundManager.Instance.PlaySfx(Sound.footstep, 0.2f);
     }
 
     public void SlideFx()
     {
-        SoundManager.instance.PlayOneShot(Sound.slide, 0.3f);
+        SoundManager.Instance.PlaySfx(Sound.slide, 0.3f);
         isSliding = true;
 
     }
@@ -21,7 +21,7 @@ public class PlayerSound : MonoBehaviour
         {
             if (isSliding)
             {
-                SoundManager.instance.StopSound();
+                SoundManager.Instance.StopSound();
                 isSliding = false;
             }
         }

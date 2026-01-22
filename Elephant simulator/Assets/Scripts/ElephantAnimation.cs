@@ -27,6 +27,7 @@ public class ElephantAnimation : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (Input.Instance.caught) return;
         AnimationController();
        
     }
@@ -49,7 +50,7 @@ public class ElephantAnimation : MonoBehaviour
                 currentT = start;
 
             animator.Play("startSlide", 0, currentT);
-            //SoundManager.instance.PlayOneShot(Sound.slide, 0.5f);
+            //SoundManager.Instance.PlaySfx(Sound.slide, 0.5f);
         }
         else
         {
@@ -122,5 +123,16 @@ public class ElephantAnimation : MonoBehaviour
     public void Caught()
     {
         animator.SetTrigger("caught");
+    }
+
+    public void Trumpet()
+    {
+        animator.SetTrigger("trumpet");
+    }
+
+    public void Sleep()
+    {
+       bool sleepToggle= animator.GetBool("sleep");
+        animator.SetBool("sleep", !sleepToggle);
     }
 }

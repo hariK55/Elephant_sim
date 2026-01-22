@@ -58,9 +58,9 @@ AvatarMask:
   - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5
     m_Weight: 0
   - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/jaw
     m_Weight: 1
   - m_Path: TRS/spine1_hiResSpine1/spine1_hiResSpine2/spine1_hiResSpine3/spine1_hiResSpine4/spine1_hiResSpine5/head1_neck/head1_head/jaw/jaw_end

@@ -81,7 +81,7 @@ public class RapidPressMechanic : MonoBehaviour
         if (progressSlider != null)
             progressSlider.gameObject.SetActive(true);
 
-        SoundManager.instance.PlayOneShot(Sound.TreeShake, 0.5f);
+        SoundManager.Instance.PlaySfx(Sound.TreeShake, 0.5f);
         ElephantAnimation.Instance.PushAnim(true);
         lastMashTime = Time.time;
      
