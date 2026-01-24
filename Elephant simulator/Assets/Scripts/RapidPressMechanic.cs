@@ -131,7 +131,7 @@ public class RapidPressMechanic : MonoBehaviour
     private void OnCompleted()
     {
         Debug.Log("Mash Completed!");
-        LoopManager.Instance.StopLoop();
+       // LoopManager.Instance.StopLoop();
         StopVibration();
 
         if (progressSlider != null)

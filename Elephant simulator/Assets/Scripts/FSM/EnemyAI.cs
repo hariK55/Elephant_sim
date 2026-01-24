@@ -156,6 +156,7 @@ public class EnemyAI : MonoBehaviour
     public void HearSound(Vector3 soundPos)
     {
         heardSoundPosition = soundPos;
+        agent.speed = chaseSpeed;
         SwitchState(new EnemySearchState(this, soundPos));
     }
 

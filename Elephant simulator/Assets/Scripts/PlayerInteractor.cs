@@ -80,7 +80,7 @@ public class PlayerInteractor : MonoBehaviour
         UpdateFocus(nearest);
 
 
-        if (focusedObject!=null && focusedObject.GetComponent<PushableTree>())
+        if (HasTree())
         {
                        Input.Instance.StopRunning();
         }
@@ -209,5 +209,9 @@ public class PlayerInteractor : MonoBehaviour
        
     }
 
-   
+   public bool HasTree()
+    {
+        return focusedObject != null && focusedObject.GetComponent<PushableTree>();
+       
+    }
 }

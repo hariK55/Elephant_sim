@@ -5,7 +5,7 @@ public class PushableTree : MonoBehaviour
     public Rigidbody rb;
     public float pushForce = 8f;
     public float fallTorque = 5f;
-    public float treeFallSound= 200f;
+    public float treeFallSound= 500f;
     private bool pushed = false;
     Interactable interactable;
     void Awake()

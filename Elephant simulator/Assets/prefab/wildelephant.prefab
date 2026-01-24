@@ -133,12 +133,6 @@ PrefabInstance:
       addedObject: {fileID: 3266395164156179044}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33a9089a95649274da16b4e8a8f0bdc6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 109866075596330131}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33a9089a95649274da16b4e8a8f0bdc6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9198258637576193553}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33a9089a95649274da16b4e8a8f0bdc6, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2865534742327560525}
   m_SourcePrefab: {fileID: 100100000, guid: 33a9089a95649274da16b4e8a8f0bdc6, type: 3}
 --- !u!1 &8345017544135838362 stripped
@@ -180,6 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea8aa8df398aa14a9dbf5e973886ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdPoint: {fileID: 0}
   radius: 3
   interactableLayers:
     serializedVersion: 2
@@ -220,15 +215,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInteract: 0
+  walkSound: 10
+  runSound: 20
+  caught: 0
   steepSlopeAngle: 25
   isSteepSlope: 0
   isSlidingDownhill: 0
   isGrounded: 0
   runSpeed: 8
-  moveSpeed: 2.3
+  walkSpeed: 3.2
   rotationSpeed: 3
   slopeStickForce: 8
   cameraTransform: {fileID: 0}
+  attackStarted: 0
+  attackPerformed: 0
+  attackCanceled: 0
   normalSmoothSpeed: 8
   slopeRotationSmooth: 6
 --- !u!114 &8089277805192822131
@@ -243,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecaf890ec63822a46a06b4dcf9293a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!136 &7449071555070083976
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -273,10 +275,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8345017544135838362}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -293,33 +295,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &109866075596330131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8345017544135838362}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 557033037bb62c14b93b7b838c40e521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactDistance: 10
-  radius: 1.19
-  distance: 3.5
---- !u!114 &9198258637576193553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8345017544135838362}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 757d4111726558745b8045f5ad3aa948, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2865534742327560525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +307,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b27a0ecb8fb5d84baf16dae02b118cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minForce: 5
+  maxForce: 25
+  maxChargeTime: 2
+  flipTorque: 15
+  attackRange: 2
 --- !u!4 &8684248030111518752 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 33a9089a95649274da16b4e8a8f0bdc6, type: 3}

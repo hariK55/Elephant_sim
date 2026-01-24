@@ -196,10 +196,11 @@ public class Input : MonoBehaviour
 
     public void StartRunning()
     {
-       
-            speed = runSpeed;
+        if (PlayerInteractor.Instance.HasTree()) return;
+        
+        speed = runSpeed;
 
-            isRunning = true;
+       isRunning = true;
        
     }
     // ---------------------------------------------------
