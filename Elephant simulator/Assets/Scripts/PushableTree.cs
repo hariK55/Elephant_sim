@@ -31,7 +31,7 @@ public class PushableTree : MonoBehaviour
         rb.isKinematic = false;
         rb.AddForce(pushDirection * strength, ForceMode.Force);
     }
-
+    banana Banana;
     // Called once when progress is full
     public void FallDown(Vector3 pushDirection)
     {
@@ -46,6 +46,14 @@ public class PushableTree : MonoBehaviour
         EnemySoundSystem.EmitSound(transform.position, treeFallSound);
         // Add torque so it topples naturally
         rb.AddTorque(Vector3.Cross(Vector3.up, pushDirection) * fallTorque, ForceMode.Impulse);
+        
+       if(Banana= GetComponentInChildren<banana>())
+        {
+            Banana.set();
+            Interactable interactable = GetComponent<Interactable>();
+            interactable.setEatable(true);
+            interactable.Enable(true);
+        }
 
         
     }

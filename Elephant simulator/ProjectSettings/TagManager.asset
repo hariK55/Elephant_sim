@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Tree
   - vehicle
+  - banana
+  - eatable
   layers:
   - Default
   - TransparentFX

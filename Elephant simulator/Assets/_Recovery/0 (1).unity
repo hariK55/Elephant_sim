@@ -4808,7 +4808,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b59f53402f153f47bf3eade80b873ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
-  audioSource: {fileID: 1510942765}
+  sfxSource: {fileID: 0}
+  musicSource: {fileID: 0}
   audioClips:
   - {fileID: 8300000, guid: fa716ec363d73794caf3505de29f22b5, type: 3}
   - {fileID: 8300000, guid: 48d2caa00c18c6c4dbab6a7ada8cb08a, type: 3}
@@ -4818,6 +4819,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 79f878a1b50dfa54aa499599c73e885a, type: 3}
   - {fileID: 8300000, guid: a57a7d89e6f23a54ba15323620a6137f, type: 3}
   - {fileID: 8300000, guid: 9f7abeb691c191d44afe2eeadfa134c4, type: 3}
+  musicClips: []
 --- !u!82 &1510942765
 AudioSource:
   m_ObjectHideFlags: 0

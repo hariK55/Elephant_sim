@@ -143,7 +143,7 @@ public class PlayerInteractor : MonoBehaviour
         //focusedObject = obj;
         ElephantAnimation.Instance.eatAnim(false);
 
-        if(obj.GetComponent<SugarCane>())
+        if (focusedObject != null && focusedObject.tag == "eatable")
             SoundManager.Instance.PlaySfx(Sound.drop, 1f);
 
         if (obj.GetComponent<PushableTree>())
@@ -161,6 +161,12 @@ public class PlayerInteractor : MonoBehaviour
         obj.transform.SetParent(holdPoint, false);
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
+
+        if (obj.GetComponent<coconut>())
+        {
+            obj.transform.localPosition = new Vector3(-2.6f, -1.83f, 0f);
+        }
+       
     }
 
     public void DropObject()
@@ -168,7 +174,7 @@ public class PlayerInteractor : MonoBehaviour
         if  (focusedObject!=null &&  focusedObject.GetComponent<PushableTree>())
             SoundManager.Instance.PlaySfx(Sound.thud, 0.5f);
 
-        if (focusedObject != null && focusedObject.GetComponent<SugarCane>())
+        if (focusedObject != null && focusedObject.tag=="eatable")
             SoundManager.Instance.PlaySfx(Sound.drop, 1f);
 
 
