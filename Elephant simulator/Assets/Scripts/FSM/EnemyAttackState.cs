@@ -8,7 +8,7 @@ public class EnemyAttackState : EnemyState
     public override void Enter()
     {
         enemy.agent.isStopped = true;
-        ElephantAnimation.Instance.Caught();
+      
      
     }
 
@@ -24,7 +24,7 @@ public class EnemyAttackState : EnemyState
             return;
         }
 
-        if (true)
+       else
         {
             Debug.Log("Attack!");
             enemy.animatorKumki.SetTrigger("attack");
@@ -32,7 +32,7 @@ public class EnemyAttackState : EnemyState
             SoundManager.Instance.StopMusic();
             Input.Instance.caught = true;
 
-            
+            ElephantAnimation.Instance.Caught();
             enemy.SwitchState(new EnemyIdleState(enemy));
 
            
