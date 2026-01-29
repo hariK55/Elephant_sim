@@ -154,7 +154,7 @@ public class Input : MonoBehaviour
         AlignRotationToSlope();
         CheckSlopeStatus();
         
-        soundEmit();
+      //  soundEmit();
 
         if (!PlayerStamina.Instance.hasStamina())
             StopRunning();

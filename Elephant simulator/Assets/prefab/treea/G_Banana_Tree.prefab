@@ -117,9 +117,6 @@ PrefabInstance:
       addedObject: {fileID: 4189510712195368419}
     - targetCorrespondingSourceObject: {fileID: -5769662674599173911, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6323558682880429118}
-    - targetCorrespondingSourceObject: {fileID: -5769662674599173911, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5358603651287283540}
     - targetCorrespondingSourceObject: {fileID: -5769662674599173911, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       insertIndex: -1
@@ -145,18 +142,6 @@ MonoBehaviour:
   isEnable: 1
   isEatable: 1
   EatValue: 10
---- !u!114 &6323558682880429118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5583806659020819545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 356c85cc23876b4418f45b350b7a3970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!136 &5358603651287283540
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -189,8 +174,8 @@ Rigidbody:
   m_GameObject: {fileID: 5583806659020819545}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 2
+  m_AngularDamping: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -203,7 +188,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -251,7 +236,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

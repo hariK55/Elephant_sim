@@ -30,8 +30,7 @@ public class Interactable : MonoBehaviour, Iinteractable
     public void Interact()
     {
         ElephantAnimation.Instance.pick();
-       // Oninteract?.Invoke();
-      //  Input.Instance.isInteract = false;
+   
     }
 
     
