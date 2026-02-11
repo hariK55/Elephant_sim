@@ -30,7 +30,7 @@ public class Interactable : MonoBehaviour, Iinteractable
     public void Interact()
     {
         ElephantAnimation.Instance.pick();
-   
+        
     }
 
     

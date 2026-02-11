@@ -185,15 +185,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6a4bdbd0adb0a949898c86f2c0eace8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.048591
+      value: -59.145447
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6a4bdbd0adb0a949898c86f2c0eace8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0028628798
+      value: -8.35588
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6a4bdbd0adb0a949898c86f2c0eace8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 27.131912
+      value: -7.84552
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6a4bdbd0adb0a949898c86f2c0eace8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -201,7 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6a4bdbd0adb0a949898c86f2c0eace8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6a4bdbd0adb0a949898c86f2c0eace8, type: 3}
       propertyPath: m_LocalRotation.y
@@ -294,9 +294,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.29
-  m_Height: 4.91
+  m_Height: 5.76
   m_Direction: 1
-  m_Center: {x: 2.68, y: 2.3, z: 0}
+  m_Center: {x: 2.68, y: 2.86, z: 0}
 --- !u!114 &3202394483449727399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,8 +322,8 @@ Rigidbody:
   m_GameObject: {fileID: 6554155180104549775}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 2
-  m_AngularDamping: 3
+  m_LinearDamping: 5
+  m_AngularDamping: 5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

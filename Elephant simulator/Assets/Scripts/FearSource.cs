@@ -2,8 +2,8 @@
 
 public class FearSource : MonoBehaviour
 {
-    public float maxIntensity = 3f;
-    public float maxDistance = 20f;
+    public float maxIntensity = 2f;
+    public float maxDistance = 25f;
     [SerializeField] private float thresholdIntensity = 1.5f;
 
     private bool runningBlocked;

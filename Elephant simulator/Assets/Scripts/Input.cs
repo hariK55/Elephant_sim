@@ -146,9 +146,13 @@ public class Input : MonoBehaviour
     private void FixedUpdate()
     {
         //euler = slopeRotation.eulerAngles;
-        if (caught) return;
+        if (caught)
+        {
+            GameManager.Instance.LoseGame();
+            return;
 
-        
+        }
+
         Movement();
         StickToSlope();
         AlignRotationToSlope();

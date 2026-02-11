@@ -28,7 +28,16 @@ public class HungerUI : MonoBehaviour
         {
             drainPerSecond = 0.07f;
         }
-       
+
+        if (slider.value <= 0f)
+        {
+            Input.Instance.caught = true;
+        }
+
+        if (slider.value >= 100f)
+        {
+           GameManager.Instance.WinGame();
+        }
     }
    
     private void Start()

@@ -164,7 +164,7 @@ public class PlayerInteractor : MonoBehaviour
 
         if (obj.GetComponent<coconut>())
         {
-            obj.transform.localPosition = new Vector3(-2.6f, -1.83f, 0f);
+            obj.transform.localPosition = new Vector3(-5.34f, -4.05f, 0f);
         }
        
     }
@@ -184,8 +184,8 @@ public class PlayerInteractor : MonoBehaviour
 
         focusedObject.transform.SetParent(null);
         focusedObject.GetComponent<Collider>().enabled = true;
-       
-       
+        focusedObject.GetComponent<Collider>().isTrigger = false;
+
         // Re-enable physics
         Rigidbody rb = focusedObject.GetComponent<Rigidbody>();
         rb.isKinematic = false;
