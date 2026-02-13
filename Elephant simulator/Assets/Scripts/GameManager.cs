@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     {
         endPanel.SetActive(true);
         resultText.text = message;
-        Time.timeScale = 0f; // pause game
+      //  Time.timeScale = 0f; // pause game
     }
 
     public void ReplayGame()

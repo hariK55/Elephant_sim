@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 
@@ -139,19 +139,30 @@ public class EnemyAI : MonoBehaviour
     }
 
     // ---------- SENSING ----------
-
+   
     public bool CanSeePlayer()
     {
-        Vector3 dir = (player.position - transform.position).normalized;
-        float dist = Vector3.Distance(transform.position, player.position);
+        Vector3 origin = transform.position + Vector3.up * 3f;
+        Vector3 target = player.position + Vector3.up * 2f;
+        Vector3 dir = (target - origin).normalized;
+        float dist = Vector3.Distance(origin, target);
 
         if (dist > viewRadius) return false;
         if (Vector3.Angle(transform.forward, dir) > viewAngle / 2f) return false;
-        if (Physics.Raycast(transform.position + Vector3.up, dir, dist, obstacleLayer)) return false;
 
+        // Check if obstacle blocks the view
+        if (Physics.Raycast(origin, dir, out RaycastHit hit, dist, obstacleLayer, QueryTriggerInteraction.Collide))
+        {
+            Debug.Log("Obstacle in sight!");
+            return false; // blocked
+        }
+
+        // No obstacle in between → player visible
+        Debug.Log("Player in sight!");
         lastKnownPosition = player.position;
         return true;
     }
+
 
     public void HearSound(Vector3 soundPos)
     {
@@ -217,5 +228,17 @@ public class EnemyAI : MonoBehaviour
 
         Gizmos.DrawLine(transform.position, transform.position + left * viewRadius);
         Gizmos.DrawLine(transform.position, transform.position + right * viewRadius);
+
+        if (player == null) return;
+
+        Vector3 origin = transform.position + Vector3.up * 3f;
+        Vector3 target = player.position + Vector3.up * 2f;
+        Vector3 dir = (target - origin).normalized;
+        float dist = Vector3.Distance(origin, target);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(origin, dir * dist);
     }
+   
+
 }
