@@ -122,6 +122,7 @@ public class ElephantAnimation : MonoBehaviour
 
     public void Caught()
     {
+        SoundManager.Instance.PlaySfx(Sound.surrender, 0.7f);
         animator.SetTrigger("caught");
     }
 

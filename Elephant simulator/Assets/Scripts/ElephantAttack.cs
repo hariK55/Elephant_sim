@@ -109,6 +109,7 @@ public class ElephantAttack : MonoBehaviour
                 // Flip on charged attack
                 if (chargePercent > 0.6f)
                 {
+                    SoundManager.Instance.PlaySfx(Sound.pushGrowl, 0.5f);
                     if (rb.gameObject.CompareTag("vehicle"))
                     {
                         SoundManager.Instance.PlaySfx(Sound.heavyHit, 0.7f);

@@ -110,8 +110,15 @@ public class Input : MonoBehaviour
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         RapidPressMechanic.Instance.OnMash();
-       // attackStarted = false;
+       
         attackPerformed = true;
+        int random = UnityEngine.Random.Range(0, 4);
+        if (random == 1)
+        {
+            
+            SoundManager.Instance.PlaySfx(Sound.pushGrowl, 0.3f);
+        }
+       
 
     }
     

@@ -69,7 +69,7 @@ public class FearMeter : MonoBehaviour
 
         fear = Mathf.Clamp(fear, 0f, maxFear);
 
-        vignette.intensity.value = fear / maxFear;
+        vignette.intensity.value = (fear / maxFear)*0.75f;
     }
 
     void UpdateUI()
@@ -87,7 +87,7 @@ public class FearMeter : MonoBehaviour
 
         if (fear >= maxFear)
         {
-            HungerUI.instance.drainPerSecond =0.8f;
+            HungerUI.instance.drainPerSecond =0.7f;
             fearOverlay.color = Color.brown;
 
             AnxiousMusic();
@@ -96,7 +96,7 @@ public class FearMeter : MonoBehaviour
     
         else if(fear>50 && fear <maxFear)
         {
-            HungerUI.instance.drainPerSecond = 0.5f;
+            HungerUI.instance.drainPerSecond = 0.3f;
             fearOverlay.color = Color.red;
             fearDecreaseRate = 2f;
             AnxiousMusic();
@@ -138,6 +138,6 @@ public class FearMeter : MonoBehaviour
 
     public void resetFear()
     {
-        fear = 0f;
+        fear -= 40f;
     }
 }

@@ -18,6 +18,9 @@ public enum Sound
     pickCane,
     kumkiFootstep,
     thud,
+    pushGrowl,
+    growl,
+    surrender,
 }
 
 public enum Music
@@ -54,6 +57,9 @@ public class SoundManager : MonoBehaviour
    
     public void PlaySfx(Sound sound,float volume)
     {
+        if(sfxSource.clip==audioClips[(int)sound] && sfxSource.isPlaying)
+            return;
+
         sfxSource.PlayOneShot(audioClips[(int)sound],volume);
     }
 

@@ -42,7 +42,7 @@ public class HungerUI : MonoBehaviour
    
     private void Start()
     {
-        slider.value = 30;
+        slider.value = 25f;
     }
     public void AddFood(int value)
     {
