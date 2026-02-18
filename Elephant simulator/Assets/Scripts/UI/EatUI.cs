@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class EatUI: MonoBehaviour
 {
-    public float holdDuration;   // How long you have to hold down
-    public Image fillCircle;
+    [SerializeField]private float holdDuration;   // How long you have to hold down
+    [SerializeField]private Image fillCircle;
 
     private float holdTimer = 0f;
     private bool isHolding = false;

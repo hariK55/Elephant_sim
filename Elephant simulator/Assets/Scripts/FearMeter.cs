@@ -87,7 +87,7 @@ public class FearMeter : MonoBehaviour
 
         if (fear >= maxFear)
         {
-            HungerUI.instance.drainPerSecond =0.7f;
+            HungerUI.instance.drainPerSecond =0.5f;
             fearOverlay.color = Color.brown;
 
             AnxiousMusic();
@@ -138,6 +138,6 @@ public class FearMeter : MonoBehaviour
 
     public void resetFear()
     {
-        fear -= 40f;
+        fear -=70f;
     }
 }

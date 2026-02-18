@@ -112,12 +112,7 @@ public class Input : MonoBehaviour
         RapidPressMechanic.Instance.OnMash();
        
         attackPerformed = true;
-        int random = UnityEngine.Random.Range(0, 4);
-        if (random == 1)
-        {
-            
-            SoundManager.Instance.PlaySfx(Sound.pushGrowl, 0.3f);
-        }
+        
        
 
     }

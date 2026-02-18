@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.AdaptivePerformance;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
 
 public class ElephantAttack : MonoBehaviour
 {
 
     public static ElephantAttack Instance { get; private set; }
 
+    [SerializeField] private Image fillCircle;
     [Header("Attack Settings")]
     public float minForce = 5f;
     public float maxForce = 25f;
@@ -23,6 +26,8 @@ public class ElephantAttack : MonoBehaviour
     {
         inputActions = new InputSystem();
         Instance = this;
+        fillCircle.fillAmount = 0f;
+        fillCircle.enabled = false;
     }
 
     private void OnEnable()
@@ -49,8 +54,14 @@ public class ElephantAttack : MonoBehaviour
         {
             holdTime += Time.deltaTime;
             holdTime = Mathf.Clamp(holdTime, 0f, maxChargeTime);
+            if(holdTime>0.3f)
+            fillCircle.enabled= true;
+            fillCircle.fillAmount =(holdTime/maxChargeTime);
         }
-       
+        else
+        {
+            fillCircle.enabled = false;
+        }
     }
 
     private void OnAttackStarted(InputAction.CallbackContext ctx)
@@ -88,6 +99,7 @@ public class ElephantAttack : MonoBehaviour
         SoundManager.Instance.PlaySfx(Sound.attack, 1f);
 
         float chargePercent = holdTime / maxChargeTime;
+       
         float force = Mathf.Lerp(minForce, maxForce, chargePercent);
 
         float radius = 0.5f;   // Increase for more forgiveness
@@ -113,7 +125,7 @@ public class ElephantAttack : MonoBehaviour
                     if (rb.gameObject.CompareTag("vehicle"))
                     {
                         SoundManager.Instance.PlaySfx(Sound.heavyHit, 0.7f);
-                        rb.gameObject.GetComponent<FearSource>().DisableFearSource();
+                        rb.GetComponent<FearSource>().DisableFearSource();
                         FearMeter.Instance.resetFear();
                     }
                        

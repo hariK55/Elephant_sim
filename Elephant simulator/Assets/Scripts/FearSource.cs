@@ -2,6 +2,8 @@
 
 public class FearSource : MonoBehaviour
 {
+    public static FearSource Instance { get; private set; }
+
     public float maxIntensity = 2f;
     public float maxDistance = 25f;
     [SerializeField] private float thresholdIntensity = 1.5f;
@@ -45,5 +47,11 @@ public class FearSource : MonoBehaviour
         runningBlocked = false;
         GetComponent<SphereCollider>().enabled = false;
         enabled = false;
+    }
+
+    public void EnableFearSource()
+    {
+        GetComponent<SphereCollider>().enabled = true;
+        enabled = true;
     }
 }

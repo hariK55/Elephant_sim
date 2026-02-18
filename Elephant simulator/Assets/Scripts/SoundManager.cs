@@ -51,7 +51,7 @@ public class SoundManager : MonoBehaviour
     {
       
         Instance = this;
-        DontDestroyOnLoad(Instance);
+      //  DontDestroyOnLoad(Instance);
     }
 
    

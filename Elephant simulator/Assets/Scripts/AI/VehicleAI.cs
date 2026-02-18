@@ -8,6 +8,7 @@ public class VehicleAI_Complete : MonoBehaviour
         Honker,
         Aggressive
     }
+   public FearSource fearSource;
 
     [Header("Driver Type")]
     public DriverType driverType;
@@ -48,6 +49,8 @@ public class VehicleAI_Complete : MonoBehaviour
     {
         if(rb==null)
         rb = GetComponent<Rigidbody>();
+        if(fearSource==null)
+            fearSource = GetComponent<FearSource>();
     }
 
     void Update()
@@ -70,6 +73,8 @@ public class VehicleAI_Complete : MonoBehaviour
         }
 
         ResumeCheck();
+
+        CheckForwardObstacle();
     }
      [SerializeField]float dot;
     void CheckIfFallen()
@@ -78,10 +83,26 @@ public class VehicleAI_Complete : MonoBehaviour
 
          dot = Vector3.Dot(rb.transform.up, Vector3.up);
 
-        Debug.Log(dot);
+       // Debug.Log(dot);
         if (dot <= flipThreshold)
         {
             PermanentlyStopVehicle();
+        }
+    }
+   [SerializeField]private LayerMask vehicleLayer;
+   [SerializeField] private float vehicleDetectDistance = 10f;
+
+    void CheckForwardObstacle()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position + Vector3.up,
+                            transform.forward,
+                            out hit,
+                            vehicleDetectDistance,
+                            vehicleLayer))
+        {
+            isStopped = true;
         }
     }
 
@@ -143,6 +164,7 @@ public class VehicleAI_Complete : MonoBehaviour
                     if (dist < stopDistance)
                     {
                         isStopped = true;
+                        fearSource.DisableFearSource();
                         engineSound.Stop();
                     }
                         
@@ -198,6 +220,7 @@ public class VehicleAI_Complete : MonoBehaviour
 
         if (driverType != DriverType.Aggressive && dist > safeDistance)
         {
+            fearSource.EnableFearSource();
             isStopped = false;
             engineSound.Play();
             if(hornAudio != null && hornAudio.isPlaying)
