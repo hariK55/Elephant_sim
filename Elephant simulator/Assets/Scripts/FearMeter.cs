@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -27,8 +28,9 @@ public class FearMeter : MonoBehaviour
 
    // Bloom bloom;
     Vignette vignette;
+    private ColorAdjustments colorAdjustments;
 
-   
+
     private void Awake()
     {
         Instance = this;
@@ -39,6 +41,7 @@ public class FearMeter : MonoBehaviour
     {
         //  volume.profile.TryGet(out bloom);
         volume.profile.TryGet(out vignette);
+        volume.profile.TryGet(out colorAdjustments);
         PlayerInteractor.Instance.Eated += PlayerInteractor_Eated;
     }
 
@@ -76,9 +79,7 @@ public class FearMeter : MonoBehaviour
     {
         fearSlider.value = fear;
 
-      /*  Color overlayColor = fearOverlay.color;
-        overlayColor.a = fear / maxFear;
-        fearOverlay.color = overlayColor;*/
+     
     }
    
     void ApplyEffects()
@@ -115,7 +116,7 @@ public class FearMeter : MonoBehaviour
         else
         {
 
-            HungerUI.instance.drainPerSecond = 0f;
+            HungerUI.instance.drainPerSecond = 0.04f;
             if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
                 // SoundManager.Instance.FadeOut(10f);
                 SoundManager.Instance.StopMusic();
@@ -140,4 +141,23 @@ public class FearMeter : MonoBehaviour
     {
         fear -=70f;
     }
+   
+    public void LowFood(float hunger)
+    {
+      
+        // Convert hunger (10 → 5) into (0 → 1)
+        float t = Mathf.InverseLerp(10f, 5f, hunger);
+
+        colorAdjustments.saturation.value =
+      Mathf.Lerp(colorAdjustments.saturation.value,
+                 Mathf.Lerp(0f, -100f, t),
+                 Time.deltaTime * 5f);
+       
+    }
+    public void ResetEffects()
+    {
+        colorAdjustments.saturation.value = 0f;
+        
+    }
 }
+

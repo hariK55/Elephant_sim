@@ -133,7 +133,7 @@ public class ElephantAnimation : MonoBehaviour
 
     public void Sleep()
     {
-       bool sleepToggle= animator.GetBool("sleep");
-        animator.SetBool("sleep", !sleepToggle);
+      
+        animator.SetTrigger("sleep");
     }
 }

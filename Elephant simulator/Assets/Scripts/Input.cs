@@ -147,14 +147,15 @@ public class Input : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(caught) return;
         //euler = slopeRotation.eulerAngles;
-        if (caught)
-        {
-            GameManager.Instance.LoseGame();
-            return;
+        /*  if (caught)
+          {
+              GameManager.Instance.LoseGame(3f);
+              return;
 
-        }
-
+          }
+  */
         Movement();
         StickToSlope();
         AlignRotationToSlope();
@@ -223,7 +224,7 @@ public class Input : MonoBehaviour
     {
         if (!isGrounded) return;
 
-        if (!ElephantAnimation.Instance.getFalling()) return;
+       
 
         if (ElephantAttack.Instance.IsCharging()) return;
 
@@ -379,16 +380,7 @@ public class Input : MonoBehaviour
             out hit,
             6f
         );
-        //fall animation
-        if(!isGrounded)
-        {
-            ElephantAnimation.Instance.Fall(true);
-
-        }
-        else
-        {
-            ElephantAnimation.Instance.Fall(false);
-        }
+       
 
         if (!isGrounded)
         {
@@ -427,4 +419,8 @@ public class Input : MonoBehaviour
         isSlidingDownhill = downhillDot > 0.5f && horizontalVel.magnitude > 0.2f;
     }
 
+    public void stopMove()
+    {
+        speed = 0f;
+    }
 }

@@ -11,11 +11,7 @@ public class EnemyChaseState : EnemyState
         enemy.agent.speed = enemy.chaseSpeed;
         enemy.animatorKumki.SetBool("isSearching", false);
         // SoundManager.Instance.StopMusic();
-        if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
-            SoundManager.Instance.StopMusic();
-
-        if(!SoundManager.Instance.IsMusicPlaying(Music.chase))
-        SoundManager.Instance.PlayMusic(Music.chase, 0.3f);
+       
         
     }
     float repathDistance = 1f;

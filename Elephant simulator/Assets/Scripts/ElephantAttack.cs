@@ -102,7 +102,7 @@ public class ElephantAttack : MonoBehaviour
        
         float force = Mathf.Lerp(minForce, maxForce, chargePercent);
 
-        float radius = 0.5f;   // Increase for more forgiveness
+        float radius = 0.7f;   // Increase for more forgiveness
         RaycastHit hit;
         if (Physics.SphereCast(
             transform.position + Vector3.up * 1f,

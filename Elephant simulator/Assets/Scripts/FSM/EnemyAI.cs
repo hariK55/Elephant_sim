@@ -59,7 +59,19 @@ public class EnemyAI : MonoBehaviour
     {
         currentState.Update();
         UpdateAnimator();
-     //   Debug.Log("SpeedParam: " + animatorKumki.GetFloat("speed"));
+        if (CanSeePlayer())
+        {
+            if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
+                SoundManager.Instance.StopMusic();
+
+            if (!SoundManager.Instance.IsMusicPlaying(Music.chase))
+                SoundManager.Instance.PlayMusic(Music.chase, 0.3f);
+        }
+        else
+        {
+            if (SoundManager.Instance.IsMusicPlaying(Music.chase))
+                SoundManager.Instance.StopSound();
+        }
 
     }
 

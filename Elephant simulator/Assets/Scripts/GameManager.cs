@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,13 +26,26 @@ public class GameManager : MonoBehaviour
     public void WinGame()
     {
         ShowEndScreen("YOU WIN!");
+        Time.timeScale = 0f;
     }
 
-    public void LoseGame()
+  /*  public void LoseGame()
     {
         ShowEndScreen("YOU LOSE!");
+       Input.Instance.caught= true;
+    }*/
+    public void LoseGame(float delay,string msg)
+    {
+        StartCoroutine(LoseGameRoutine(delay,msg));
     }
+    private IEnumerator LoseGameRoutine(float delay, string msg)
+    {
+        Input.Instance.caught = true;
+        yield return new WaitForSeconds(delay);
 
+        ShowEndScreen(msg);
+        
+    }
     void ShowEndScreen(string message)
     {
         endPanel.SetActive(true);

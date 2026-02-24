@@ -30,8 +30,8 @@ public class EnemyAttackState : EnemyState
             enemy.animatorKumki.SetTrigger("attack");
             SoundManager.Instance.PlaySfx(Sound.Trumpet, 0.5f);
             SoundManager.Instance.StopMusic();
-            Input.Instance.caught = true;
-
+            //Input.Instance.caught = true;
+            GameManager.Instance.LoseGame(5f,"you're caught");
             ElephantAnimation.Instance.Caught();
             enemy.SwitchState(new EnemyIdleState(enemy));
 
