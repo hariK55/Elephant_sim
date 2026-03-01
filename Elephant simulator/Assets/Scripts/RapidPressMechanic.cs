@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿
+using Unity.Cinemachine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -12,12 +14,21 @@ public class RapidPressMechanic : MonoBehaviour
     public float pressAmount = 10f;
     public float decayRate = 15f;
 
-    [Header("Movement Check")]
+    [Header("Tree Detection")]
+    public float detectionRadius = 1.2f;
+    public float detectionDistance = 2f;
+    public LayerMask treeLayer;
+
+    [Header("Forward Push Requirement")]
     [Range(0f, 1f)]
-    public float moveTowardThreshold = 0.2f;
+    public float forwardDotThreshold = 0.6f;
 
     [Header("UI")]
     public Slider progressSlider;
+
+    [Header("Camera Shake")]
+    public CinemachineImpulseSource impulseSource;
+    public float shakeForce = 0.2f;
 
     [Header("Vibration")]
     public float minVibration = 0.1f;
@@ -27,7 +38,6 @@ public class RapidPressMechanic : MonoBehaviour
     private bool completed = false;
 
     private PushableTree currentTree;
-    private Rigidbody rb;
     private Gamepad gamepad;
 
     private float lastMashTime;
@@ -36,7 +46,6 @@ public class RapidPressMechanic : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        rb = GetComponent<Rigidbody>();
         gamepad = Gamepad.current;
 
         if (progressSlider != null)
@@ -50,11 +59,13 @@ public class RapidPressMechanic : MonoBehaviour
 
     void Update()
     {
+        DetectTree();
+
         if (!canPush || completed) return;
 
-        // Decay progress
+        // Decay
         progress -= decayRate * Time.deltaTime;
-        progress = Mathf.Clamp(progress, 0, maxProgress+1f);
+        progress = Mathf.Clamp(progress, 0, maxProgress);
 
         UpdateUI();
         UpdateVibration();
@@ -62,49 +73,110 @@ public class RapidPressMechanic : MonoBehaviour
         if (ElephantAnimation.Instance.getPushing())
         {
             if (Time.time - lastMashTime > mashTimeout)
-            {
                 ElephantAnimation.Instance.PushAnim(false);
-            }
         }
     }
 
-    // 🔹 Called by Input (button mash)
+    // =========================
+    // 🔍 SPHERE DETECTION
+    // =========================
+    private void DetectTree()
+    {
+        RaycastHit hit;
+
+        Vector3 origin = transform.position + Vector3.up * 1f;
+        Vector3 direction = transform.forward;
+
+        if (Physics.SphereCast(origin, detectionRadius, direction,
+            out hit, detectionDistance, treeLayer))
+        {
+            PushableTree tree = hit.collider.GetComponent<PushableTree>();
+
+            if (tree != null && !tree.IsFallen())
+            {
+                // 🔥 If new tree detected → reset state
+                if (currentTree != tree)
+                {
+                    progress = 0f;
+                    completed = false;
+                }
+
+                currentTree = tree;
+                canPush = true;
+                return;
+            }
+        }
+
+        ResetPushState();
+    }
+
+    private void ResetPushState()
+    {
+        canPush = false;
+        currentTree = null;
+        progress = 0f;
+        completed = false;   // ✅ VERY IMPORTANT
+
+        if (progressSlider != null)
+            progressSlider.gameObject.SetActive(false);
+
+        ElephantAnimation.Instance.PushAnim(false);
+        StopVibration();
+    }
+
+    // =========================
+    // 🔘 MASH INPUT
+    // =========================
     public void OnMash()
     {
         if (!canPush || completed) return;
 
-        // ❌ BLOCK if player is NOT moving toward the tree
-        if (!IsPushingTree())
-            return;
-
+        if (!IsHoldingForward()) return; // ✅ must hold forward
 
         if (progressSlider != null)
             progressSlider.gameObject.SetActive(true);
 
-        SoundManager.Instance.PlaySfx(Sound.TreeShake, 0.5f);
         ElephantAnimation.Instance.PushAnim(true);
         lastMashTime = Time.time;
-     
-        if (Input.Instance.IsRunning())
-        {
-            progress += pressAmount+1.2f;
-        }
-        else
-        {
-            progress += pressAmount;
-        }
-       
-        progress = Mathf.Clamp(progress, 0, maxProgress+1f);
 
-       
+        progress += pressAmount;
+        progress = Mathf.Clamp(progress, 0, maxProgress);
+
+        // 🎥 CAMERA SHAKE
+        if (impulseSource != null)
+            impulseSource.GenerateImpulse(shakeForce);
+
         if (progress >= maxProgress)
         {
             completed = true;
             currentTree.FallDown(GetPushDirection());
             OnCompleted();
-            ElephantAnimation.Instance.PushAnim(false);
-
         }
+    }
+
+    // =========================
+    // 🧭 CHECK FORWARD INPUT
+    // =========================
+    private bool IsHoldingForward()
+    {
+        Vector2 move = Input.Instance.GetMovementVector();
+        if (move == Vector2.zero) return false;
+
+        Vector3 moveDir = new Vector3(move.x, 0, move.y).normalized;
+        Vector3 forward = transform.forward;
+        forward.y = 0f;
+
+        float dot = Vector3.Dot(forward.normalized, moveDir);
+
+        return dot > forwardDotThreshold;
+    }
+
+    // =========================
+    private Vector3 GetPushDirection()
+    {
+        Vector3 dir = currentTree.transform.position - transform.position;
+        dir.y = 0f;
+        return dir.normalized;
     }
 
     private void UpdateUI()
@@ -130,8 +202,6 @@ public class RapidPressMechanic : MonoBehaviour
 
     private void OnCompleted()
     {
-        Debug.Log("Mash Completed!");
-       // LoopManager.Instance.StopLoop();
         StopVibration();
 
         if (progressSlider != null)
@@ -140,59 +210,20 @@ public class RapidPressMechanic : MonoBehaviour
         progress = 0f;
     }
 
-    // 🔹 Direction away from player
-    private Vector3 GetPushDirection()
+
+
+    // =========================
+    // 🎯 DEBUG GIZMOS
+    // =========================
+    private void OnDrawGizmos()
     {
-        Vector3 dir = currentTree.transform.position - transform.position;
-        dir.y = 0f;
-        return dir.normalized;
-    }
-    private bool IsPushingTree()
-    {
-        if (currentTree == null) return false;
-        Vector2 move = Input.Instance.GetMovementVector();
-        if (move == Vector2.zero) return false;
+        Gizmos.color = Color.aliceBlue;
 
-        Vector3 pushDir = GetPushDirection();   // player → tree
-        Vector3 forward = transform.forward;    // elephant facing direction
+        Vector3 origin = transform.position + Vector3.up * 2f;
+        Vector3 direction = transform.forward * detectionDistance;
 
-        forward.y = 0f;
-
-        float dot = Vector3.Dot(forward.normalized, pushDir);
-
-        // Player must be facing the tree
-        return dot > 0.4f;
-    }
-
-    // 🔹 NEW: Movement toward tree check
-    
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Tree"))
-        {
-           // LoopManager.Instance.Loop("fight", 0.3f, 0.7f);
-            currentTree = collision.gameObject.GetComponent<PushableTree>();
-            canPush = true;
-            progress = 0f;
-            completed = false;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Tree"))
-        {
-            canPush = false;
-            currentTree = null;
-            progress = 0f;
-
-            if (progressSlider != null)
-                progressSlider.gameObject.SetActive(false);
-
-
-            ElephantAnimation.Instance.PushAnim(false);
-            StopVibration();
-        }
+        Gizmos.DrawWireSphere(origin, detectionRadius);
+        Gizmos.DrawLine(origin, origin + direction);
+        Gizmos.DrawWireSphere(origin + direction, detectionRadius);
     }
 }

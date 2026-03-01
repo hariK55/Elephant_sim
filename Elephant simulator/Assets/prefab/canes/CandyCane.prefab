@@ -123,7 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnable: 1
   isEatable: 0
-  EatValue: 10
+  EatValue: 7
 --- !u!114 &55186328562389025
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class HungerUI : MonoBehaviour
 {
     public Slider slider;
     public TextMeshProUGUI textNo;
+    [SerializeField] private Image fillImage;
 
     private bool isfade=false;
     private bool isdown=false;
@@ -21,7 +22,7 @@ public class HungerUI : MonoBehaviour
     #endregion
     private void Start()
     {
-        slider.value = 1f;
+        slider.value = 95f;
 
     }
     public float drainPerSecond;
@@ -32,6 +33,10 @@ public class HungerUI : MonoBehaviour
         {
             return;
         }
+        if (slider.value >= 100f)
+        {
+            GameManager.Instance.WinGame();
+        }
 
         textNo.text = slider.value.ToString("F0") + "%";
         slider.value -= drainPerSecond * Time.deltaTime;
@@ -40,10 +45,7 @@ public class HungerUI : MonoBehaviour
         valueBranches();
 
 
-        if (slider.value >= 100f)
-        {
-            GameManager.Instance.WinGame();
-        }
+       
     }
      private void valueBranches()
     {
@@ -59,17 +61,25 @@ public class HungerUI : MonoBehaviour
             GameManager.Instance.LoseGame(5f,"you're Unconsiouss");
            
         }
-       
-          
-
-       /* if (slider.value < 10f)
+        if (slider.value < 50f)
         {
-            FearMeter.Instance.LowFood(slider.value);
+            fillImage.color = Color.yellow;
+            PlayerStamina.Instance.staminaDrainRate=6.5f;
+            PlayerStamina.Instance.staminaRegenRate=5.5f;
         }
-         else if(slider.value > 10f)
+       else  if (slider.value < 15f)
         {
-            FearMeter.Instance.ResetEffects();
-        }*/
+            fillImage.color = Color.red;
+            PlayerStamina.Instance.staminaDrainRate = 6.7f;
+            PlayerStamina.Instance.staminaRegenRate = 5.3f;
+        }
+        else if (slider.value >= 50f)
+        {
+            fillImage.color = Color.green;
+            PlayerStamina.Instance.staminaDrainRate = 6f;
+            PlayerStamina.Instance.staminaRegenRate = 6f;
+        }
+
         if (slider.value < 5f)
         {
             Input.Instance.StopRunning();

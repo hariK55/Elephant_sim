@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public void WinGame()
     {
         ShowEndScreen("YOU WIN!");
-        Time.timeScale = 0f;
+        
     }
 
   /*  public void LoseGame()
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
         endPanel.SetActive(true);
         resultText.text = message;
-      //  Time.timeScale = 0f; // pause game
+        Time.timeScale = 0f; // pause game
     }
 
     public void ReplayGame()

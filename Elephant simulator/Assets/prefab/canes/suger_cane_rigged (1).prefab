@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
   isEnable: 1
   isEatable: 0
-  EatValue: 10
+  EatValue: 7
 --- !u!114 &5921620538224513362
 MonoBehaviour:
   m_ObjectHideFlags: 0

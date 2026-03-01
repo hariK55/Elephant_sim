@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1750639564377939469}
   - component: {fileID: 8693292631614072346}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: trig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,6 +61,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8982292398640055022, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5
@@ -117,17 +121,41 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5819708567296034391, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -5769662674599173911, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: -5769662674599173911, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       propertyPath: m_TagString
       value: banana
+      objectReference: {fileID: 0}
+    - target: {fileID: -4359870505273862164, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -2533164057414801606, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -2533164057414801606, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       propertyPath: m_TagString
       value: Tree
       objectReference: {fileID: 0}
+    - target: {fileID: -2370415402009625068, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       propertyPath: m_Name
       value: G_Banana_Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       propertyPath: m_TagString
@@ -148,6 +176,30 @@ PrefabInstance:
     - target: {fileID: 1074981941511982937, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183671185957079880, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1736503593909806165, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148245939754714897, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2903833195825997741, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151791583715498268, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6177438939570419253, guid: 8bf4783f51416564d897543eb3813a32, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
