@@ -22,7 +22,7 @@ public class EnemyPatrolState : EnemyState
        
         enemy.agent.speed = 3f;
         enemy.animatorKumki.SetBool("isSearching", false);
-        Debug.Log("patrolling");
+       // Debug.Log("patrolling");
         patrolIndex = enemy.patrolIndex;
         patrolDirection = enemy.patrolDirection;
         waiting = false;

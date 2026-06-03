@@ -38,6 +38,9 @@ public class PlayerInteractor : MonoBehaviour
 
     private Iinteractable focused;
 
+    private string displayStr;
+
+
     private void Awake()
     {
         Instance = this;
@@ -64,7 +67,7 @@ public class PlayerInteractor : MonoBehaviour
         // CASE 2: Not holding & focused object exists → PICK
         if (focused != null && focused.CanInteract())
         {
-            focused.Interact();
+            focused.Interact();//pick
             focusedObject = ((MonoBehaviour)focused).gameObject;
 
 
@@ -132,22 +135,23 @@ public class PlayerInteractor : MonoBehaviour
         }
         else
         {
-            prompt.Hide();
+            if(!HasObject())
+            {
+                 prompt.Hide();
+            }
+           
         }
         
     }
-
+    public static event Action OnpickEatTutorial;
     public void PickObject(GameObject obj)
     {
 
         //focusedObject = obj;
         ElephantAnimation.Instance.eatAnim(false);
 
-        if (focusedObject != null && focusedObject.tag == "eatable")
-            SoundManager.Instance.PlaySfx(Sound.drop, 1f);
-
-        if (obj.GetComponent<PushableTree>())
-            SoundManager.Instance.PlaySfx(Sound.thud, 0.5f);
+       
+        SoundManager.Instance.PlaySfx(Sound.thud, 0.5f);
 
         // Disable physics while holdin
         Collider col = obj.GetComponent<Collider>();
@@ -162,11 +166,20 @@ public class PlayerInteractor : MonoBehaviour
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
 
+        if (isEatable())
+        {
+            OnpickEatTutorial?.Invoke();
+            prompt.Show(focused);
+        }
         if (obj.GetComponent<coconut>())
         {
             obj.transform.localPosition = new Vector3(-5.34f, -4.05f, 0f);
         }
-       
+        else if (obj.GetComponent<SugarCane>())
+        {
+            obj.transform.localPosition = new Vector3(0f, -1.63f, 0f);
+        }
+        
     }
 
     public void DropObject()
@@ -203,14 +216,18 @@ public class PlayerInteractor : MonoBehaviour
     }
     public void OnEat()
     {
+        prompt.Hide();
+        SoundManager.Instance.PlaySfx(Sound.eatCane, 0.5f);
+    
     //    EnemySoundSystem.EmitSound(transform.position, 15f);
-        HungerUI.instance.AddFood(focusedObject.GetComponent<Interactable>().GetEatVAlue());
+    HungerUI.instance.AddFood(focusedObject.GetComponent<Interactable>().GetEatVAlue());
 
         Eated?.Invoke(this, EventArgs.Empty);
 
         UpdateFocus(null);
         focusedObject.SetActive(false);
         focusedObject = null;
+       
 
        
     }

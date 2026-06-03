@@ -14,7 +14,7 @@ public enum Sound
     heavyHit,
     drop,
     Trumpet,
-    attack,
+    footvibe,
     pickCane,
     kumkiFootstep,
     thud,
@@ -60,7 +60,7 @@ public class SoundManager : MonoBehaviour
         if(sfxSource.clip==audioClips[(int)sound] && sfxSource.isPlaying)
             return;
 
-        sfxSource.PlayOneShot(audioClips[(int)sound],volume);
+        sfxSource.PlayOneShot(audioClips[(int)sound],1f);
     }
 
   public void PlayMusic(Music music,float volume)

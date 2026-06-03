@@ -65,7 +65,7 @@ public class EnemyAI : MonoBehaviour
                 SoundManager.Instance.StopMusic();
 
             if (!SoundManager.Instance.IsMusicPlaying(Music.chase))
-                SoundManager.Instance.PlayMusic(Music.chase, 0.3f);
+                SoundManager.Instance.PlayMusic(Music.chase, 0.7f);
         }
         else
         {
@@ -165,12 +165,12 @@ public class EnemyAI : MonoBehaviour
         // Check if obstacle blocks the view
         if (Physics.Raycast(origin, dir, out RaycastHit hit, dist, obstacleLayer, QueryTriggerInteraction.Collide))
         {
-            Debug.Log("Obstacle in sight!");
+          //  Debug.Log("Obstacle in sight!");
             return false; // blocked
         }
 
         // No obstacle in between → player visible
-        Debug.Log("Player in sight!");
+       // Debug.Log("Player in sight!");
         lastKnownPosition = player.position;
         return true;
     }

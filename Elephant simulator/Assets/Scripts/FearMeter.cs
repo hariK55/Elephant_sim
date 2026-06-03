@@ -133,7 +133,7 @@ public class FearMeter : MonoBehaviour
     private void AnxiousMusic()
     {
         if (!SoundManager.Instance.IsMusicPlaying(Music.Anxious) && !SoundManager.Instance.IsMusicPlaying(Music.chase))
-             SoundManager.Instance.PlayMusic(Music.Anxious,0.2f);
+             SoundManager.Instance.PlayMusic(Music.Anxious,0.4f);
            // SoundManager.Instance.FadeIn(5f);
     }
 

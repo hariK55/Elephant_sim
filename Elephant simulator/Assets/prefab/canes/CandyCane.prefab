@@ -124,6 +124,8 @@ MonoBehaviour:
   isEnable: 1
   isEatable: 0
   EatValue: 7
+  eatAction: {fileID: 7290652552358006325, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  pickAction: {fileID: 1781555164194001046, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &55186328562389025
 MonoBehaviour:
   m_ObjectHideFlags: 0

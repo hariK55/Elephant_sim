@@ -8,7 +8,7 @@ public class HungerUI : MonoBehaviour
     public TextMeshProUGUI textNo;
     [SerializeField] private Image fillImage;
 
-    private bool isfade=false;
+    //private bool isfade=false;
     private bool isdown=false;
     #region singleton
     public static HungerUI instance { get;private set; }
@@ -22,7 +22,7 @@ public class HungerUI : MonoBehaviour
     #endregion
     private void Start()
     {
-        slider.value = 95f;
+        slider.value = 20f;
 
     }
     public float drainPerSecond;

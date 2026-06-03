@@ -154,6 +154,12 @@ public class RapidPressMechanic : MonoBehaviour
         }
     }
 
+    public void treeFallShake()
+    {
+        shakeForce = 0.7f;
+        if (impulseSource != null)
+            impulseSource.GenerateImpulse(shakeForce);
+    }
     // =========================
     // 🧭 CHECK FORWARD INPUT
     // =========================

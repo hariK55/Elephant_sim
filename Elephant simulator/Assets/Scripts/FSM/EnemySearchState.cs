@@ -17,7 +17,7 @@ public class EnemySearchState : EnemyState
     {
         enemy.agent.speed = 4f;
         enemy.animatorKumki.SetBool("isSearching", true);
-        Debug.Log("searching");
+       // Debug.Log("searching");
         enemy.agent.isStopped = false;
         MoveNext();
     }

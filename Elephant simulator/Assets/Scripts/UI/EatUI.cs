@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class EatUI: MonoBehaviour
+public class EatUI : MonoBehaviour
 {
-    [SerializeField]private float holdDuration;   // How long you have to hold down
-    [SerializeField]private Image fillCircle;
+    [SerializeField] private float holdDuration = 3.5f;
+    [SerializeField] private Slider holdSlider;
 
     private float holdTimer = 0f;
     private bool isHolding = false;
@@ -14,49 +13,60 @@ public class EatUI: MonoBehaviour
 
     private void Awake()
     {
-        holdDuration = 5.5f;
         Instance = this;
+
+        holdSlider.minValue = 0f;
+        holdSlider.maxValue = 1f;
+        holdSlider.value = 0f;
+
+        // Hide initially
+        holdSlider.gameObject.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        if (isHolding && PlayerInteractor.Instance.isEatable() && !(Input.Instance.caught)) 
+        if (isHolding && PlayerInteractor.Instance.isEatable() && !Input.Instance.caught)
         {
-           
             holdTimer += Time.deltaTime;
-            fillCircle.fillAmount = holdTimer /holdDuration ;
-           
+
+            holdSlider.value = holdTimer/holdDuration;
+
             if (holdTimer >= holdDuration)
             {
                 ElephantAnimation.Instance.eatAnim(true);
                 PlayerInteractor.Instance.OnEat();
                 SoundManager.Instance.StopSound();
+
                 ResetHold();
             }
         }
     }
 
-    
-
     private void ResetHold()
     {
         isHolding = false;
         holdTimer = 0f;
-        fillCircle.fillAmount = 0f;
+
+        holdSlider.value = 0f;
+        holdSlider.gameObject.SetActive(false); // Hide slider
     }
+
     public void OnHold()
     {
-        if (PlayerInteractor.Instance.isEatable() && !(Input.Instance.caught))
+        if (PlayerInteractor.Instance.isEatable() && !Input.Instance.caught)
         {
             isHolding = true;
+
+            holdSlider.gameObject.SetActive(true); // Show slider
+           // holdSlider.value = 0f;
+
             SoundManager.Instance.PlaySfx(Sound.eatCane, 0.5f);
         }
-        else return;
     }
+
     public void OnHoldCanceled()
     {
         ResetHold();
         SoundManager.Instance.StopSound();
-        // ElephantAnimation.Instance.eatAnim(false);
     }
 }

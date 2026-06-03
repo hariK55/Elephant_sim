@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Interactable : MonoBehaviour, Iinteractable
 {
@@ -9,40 +10,96 @@ public class Interactable : MonoBehaviour, Iinteractable
     [SerializeField]private bool isEnable =false;
     [SerializeField] private bool isEatable = false;
     [SerializeField] private int EatValue;
-    private string displayStr = "Pick";
+    private string displayStr;
     
 
     //[SerializeField] private UnityEvent Oninteract;
+    
+
+    [SerializeField] private InputActionReference eatAction;
+    [SerializeField] private InputActionReference pickAction;
+
 
     string Iinteractable.Display => displayStr;
+
+    private Renderer rend;
 
 
     private void Awake()
     {
-        outline = gameObject.AddComponent<Outline>();
-        outline.OutlineMode = Outline.Mode.OutlineVisible;
-        outline.OutlineColor = Color.red;
+       
+        rend = GetComponentInChildren<Renderer>();
+
+       
+
+        PlayerInteractor.OnpickEatTutorial += PlayerInteractor_OnpickEatTutorial;
+        /*outline = gameObject.AddComponent<Outline>();
+       
+        outline.OutlineMode = Outline.Mode.OutlineAll;
+        outline.OutlineColor = Color.cyan;
         outline.OutlineWidth = 10f;
-        outline.enabled = false;
+        outline.enabled = false;*/
 
         Instance = this;
+    }
+
+    private void PlayerInteractor_OnpickEatTutorial()
+    {
+        displayStr = $"Hold {currentBindingEat} to Eat";
+    }
+
+    private void Start()
+    {
+        if ((gameObject.tag) != "Tree")
+        {
+            rend.material.EnableKeyword("_EMISSION");
+            rend.material.SetColor("_EmissionColor", Color.yellow * 10f);
+        }
+    }
+
+    private string lastBinding = "";
+    private string lastBindingPick = "";
+    string currentBindingPick="";
+    string currentBindingEat="";
+    void Update()
+    {
+        currentBindingEat =
+            eatAction.action.GetBindingDisplayString();
+         currentBindingPick =
+           pickAction.action.GetBindingDisplayString();
+
+        if (currentBindingEat != lastBinding)
+        {
+            lastBinding = currentBindingEat;
+           
+        }
+
+        if (currentBindingPick != lastBindingPick)
+        {
+            lastBindingPick = currentBindingPick;
+            displayStr = $"Press {currentBindingPick} to Pick";
+
+        }
     }
     public void Interact()
     {
         ElephantAnimation.Instance.pick();
-        
+        displayStr = $"Press {currentBindingPick} to Pick";
     }
 
     
 
     public void OnFocusGained()
     {
-        outline.enabled = true;
+        //outline.enabled = true;
+        displayStr = $"Press {currentBindingPick} to Pick";
+
     }
 
     public void OnFocusLost()
     {
-        outline.enabled = false;
+        rend.material.SetColor("_EmissionColor", Color.black);
+        displayStr = $"Press {currentBindingPick} to Pick";
     }
 
     public bool CanInteract()

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public void WinGame()
     {
         ShowEndScreen("YOU WIN!");
-        
+        resultText.color = Color.yellow;
     }
 
   /*  public void LoseGame()

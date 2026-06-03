@@ -96,7 +96,7 @@ public class ElephantAttack : MonoBehaviour
     {
         if (Input.Instance.caught) return;
 
-        SoundManager.Instance.PlaySfx(Sound.attack, 1f);
+      
 
         float chargePercent = holdTime / maxChargeTime;
        
@@ -117,7 +117,7 @@ public class ElephantAttack : MonoBehaviour
 
                 // Apply force
                 rb.AddForce(transform.forward * force, ForceMode.Impulse);
-                Debug.Log("hit");
+               // Debug.Log("hit");
                 // Flip on charged attack
                 if (chargePercent > 0.6f)
                 {
@@ -125,7 +125,10 @@ public class ElephantAttack : MonoBehaviour
                     if (rb.gameObject.CompareTag("vehicle"))
                     {
                         SoundManager.Instance.PlaySfx(Sound.heavyHit, 0.7f);
+
+                        if (rb.GetComponent<FearSource>())
                         rb.GetComponent<FearSource>().DisableFearSource();
+
                         FearMeter.Instance.resetFear();
                     }
                        

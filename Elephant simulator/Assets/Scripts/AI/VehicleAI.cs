@@ -51,6 +51,8 @@ public class VehicleAI_Complete : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if(fearSource==null)
             fearSource = GetComponent<FearSource>();
+        if(engineSound!=null)
+            engineSound.Play();
     }
 
     void Update()
@@ -74,7 +76,7 @@ public class VehicleAI_Complete : MonoBehaviour
 
         ResumeCheck();
 
-        CheckForwardObstacle();
+       // CheckForwardObstacle();
     }
      [SerializeField]float dot;
     void CheckIfFallen()

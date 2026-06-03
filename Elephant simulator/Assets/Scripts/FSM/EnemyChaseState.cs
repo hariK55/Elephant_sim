@@ -6,7 +6,7 @@ public class EnemyChaseState : EnemyState
 
     public override void Enter()
     {
-        Debug.Log("chasing");
+       // Debug.Log("chasing");
         enemy.agent.isStopped = false;
         enemy.agent.speed = enemy.chaseSpeed;
         enemy.animatorKumki.SetBool("isSearching", false);

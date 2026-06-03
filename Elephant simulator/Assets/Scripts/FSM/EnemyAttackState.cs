@@ -26,7 +26,7 @@ public class EnemyAttackState : EnemyState
 
        else
         {
-            Debug.Log("Attack!");
+           // Debug.Log("Attack!");
             enemy.animatorKumki.SetTrigger("attack");
             SoundManager.Instance.PlaySfx(Sound.Trumpet, 0.5f);
             SoundManager.Instance.StopMusic();
