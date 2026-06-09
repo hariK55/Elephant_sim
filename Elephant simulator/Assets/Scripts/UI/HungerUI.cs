@@ -22,7 +22,7 @@ public class HungerUI : MonoBehaviour
     #endregion
     private void Start()
     {
-        slider.value = 20f;
+        slider.value = 10f;
 
     }
     public float drainPerSecond;

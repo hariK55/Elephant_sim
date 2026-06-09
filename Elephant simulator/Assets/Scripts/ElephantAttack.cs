@@ -102,7 +102,7 @@ public class ElephantAttack : MonoBehaviour
        
         float force = Mathf.Lerp(minForce, maxForce, chargePercent);
 
-        float radius = 0.7f;   // Increase for more forgiveness
+        float radius = 0.9f;   // Increase for more forgiveness
         RaycastHit hit;
         if (Physics.SphereCast(
             transform.position + Vector3.up * 1f,
@@ -121,7 +121,9 @@ public class ElephantAttack : MonoBehaviour
                 // Flip on charged attack
                 if (chargePercent > 0.6f)
                 {
-                    SoundManager.Instance.PlaySfx(Sound.pushGrowl, 0.5f);
+                    EnemySoundSystem.EmitSound(transform.position,500f);
+
+                    SoundManager.Instance.PlaySfx(Sound.pushGrowl, 0.3f);
                     if (rb.gameObject.CompareTag("vehicle"))
                     {
                         SoundManager.Instance.PlaySfx(Sound.heavyHit, 0.7f);
@@ -143,10 +145,7 @@ public class ElephantAttack : MonoBehaviour
                    
                 }
             }
-            else
-            {
-                
-            }
+            
         }
     }
     public bool IsCharging()

@@ -209,7 +209,7 @@ public class RapidPressMechanic : MonoBehaviour
     private void OnCompleted()
     {
         StopVibration();
-
+        NotificationUI.Instance.ShowMessage("Kumki alerted!");
         if (progressSlider != null)
             progressSlider.gameObject.SetActive(false);
 

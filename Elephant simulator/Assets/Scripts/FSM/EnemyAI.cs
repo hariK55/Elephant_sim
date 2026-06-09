@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
+    [SerializeField] private TMP_Text promptTxt;
+    private string promptText = "Run away and Hide from kumki !";
     public NavMeshAgent agent;
     public Transform player;
     public Animator animatorKumki;
@@ -61,6 +64,7 @@ public class EnemyAI : MonoBehaviour
         UpdateAnimator();
         if (CanSeePlayer())
         {
+            promptTxt.text = promptText;
             if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
                 SoundManager.Instance.StopMusic();
 

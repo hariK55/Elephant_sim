@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -7,6 +8,11 @@ using UnityEngine.UI;
 public class FearMeter : MonoBehaviour
 {
 
+    [SerializeField]
+    private string tutorialMessage = "";
+
+    [SerializeField]
+    private TMP_Text tutorialText;
     public static FearMeter Instance { get; private set; }
 
     [Header("Fear Settings")]
@@ -29,6 +35,7 @@ public class FearMeter : MonoBehaviour
    // Bloom bloom;
     Vignette vignette;
     private ColorAdjustments colorAdjustments;
+    private bool firstText = false;
 
 
     private void Awake()
@@ -47,14 +54,22 @@ public class FearMeter : MonoBehaviour
 
     private void PlayerInteractor_Eated(object sender, System.EventArgs e)
     {
-        fear -= 50;
+        if(fear>0)
+        {
+            fear -= 50;
+            NotificationUI.Instance.ShowMessage("Anxiety Reduced");
+        }
+        
     }
-
+   
     void Update()
     {
-        HandleFear();
-        UpdateUI();
-        ApplyEffects();
+        
+            
+            HandleFear();
+            UpdateUI();
+            ApplyEffects();
+        
     }
 
     void HandleFear()
@@ -111,6 +126,10 @@ public class FearMeter : MonoBehaviour
 
             AnxiousMusic();
 
+            if(!EnemyAI.instance.CanSeePlayer()) 
+            tutorialText.text = tutorialMessage;
+
+            firstText = true;
 
         }
         else
@@ -120,6 +139,9 @@ public class FearMeter : MonoBehaviour
             if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
                 // SoundManager.Instance.FadeOut(10f);
                 SoundManager.Instance.StopMusic();
+
+            if(firstText)
+            tutorialText.text ="";
         }
 
     }
@@ -140,6 +162,7 @@ public class FearMeter : MonoBehaviour
     public void resetFear()
     {
         fear -=70f;
+        NotificationUI.Instance.ShowMessage("Anxiety Reduced");
     }
    
     public void LowFood(float hunger)

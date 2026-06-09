@@ -8,8 +8,8 @@ public class EnemyAttackState : EnemyState
     public override void Enter()
     {
         enemy.agent.isStopped = true;
-      
-     
+        SoundManager.Instance.StopMusic();
+
     }
 
     public override void Update()
@@ -29,7 +29,7 @@ public class EnemyAttackState : EnemyState
            // Debug.Log("Attack!");
             enemy.animatorKumki.SetTrigger("attack");
             SoundManager.Instance.PlaySfx(Sound.Trumpet, 0.5f);
-            SoundManager.Instance.StopMusic();
+            
             //Input.Instance.caught = true;
             GameManager.Instance.LoseGame(5f,"you're caught");
             ElephantAnimation.Instance.Caught();

@@ -43,6 +43,7 @@ public class PlayerStamina : MonoBehaviour
     private void PlayerInteractor_Eated(object sender, System.EventArgs e)
     {
         currentStamina = maxStamina;
+        NotificationUI.Instance.ShowMessage("Stamina Restored");
     }
 
     void Update()

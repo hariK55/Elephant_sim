@@ -147,7 +147,7 @@ public class PlayerInteractor : MonoBehaviour
     public void PickObject(GameObject obj)
     {
 
-        //focusedObject = obj;
+        
         ElephantAnimation.Instance.eatAnim(false);
 
        
@@ -166,11 +166,7 @@ public class PlayerInteractor : MonoBehaviour
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
 
-        if (isEatable())
-        {
-            OnpickEatTutorial?.Invoke();
-            prompt.Show(focused);
-        }
+        
         if (obj.GetComponent<coconut>())
         {
             obj.transform.localPosition = new Vector3(-5.34f, -4.05f, 0f);
@@ -179,7 +175,16 @@ public class PlayerInteractor : MonoBehaviour
         {
             obj.transform.localPosition = new Vector3(0f, -1.63f, 0f);
         }
-        
+        else if(obj.tag=="banana")
+        {
+            obj.transform.localPosition = new Vector3(-0.31f, -0.219f, 0.2f);
+            obj.transform.localRotation = new Quaternion(0.620607018f, 0.0860012397f, -0.0728725418f, 0.775977075f);
+        }
+        if (isEatable())
+        {
+            OnpickEatTutorial?.Invoke();
+            prompt.Show(focused);
+        }
     }
 
     public void DropObject()
@@ -218,10 +223,11 @@ public class PlayerInteractor : MonoBehaviour
     {
         prompt.Hide();
         SoundManager.Instance.PlaySfx(Sound.eatCane, 0.5f);
-    
-    //    EnemySoundSystem.EmitSound(transform.position, 15f);
-    HungerUI.instance.AddFood(focusedObject.GetComponent<Interactable>().GetEatVAlue());
+        SoundManager.Instance.PlayMusic(Music.energy, 0.7f);
 
+        int eatValue = focusedObject.GetComponent<Interactable>().GetEatVAlue();
+        HungerUI.instance.AddFood(eatValue);
+        NotificationUI.Instance.ShowMessage("+"+eatValue+" Energy");
         Eated?.Invoke(this, EventArgs.Empty);
 
         UpdateFocus(null);

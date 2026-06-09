@@ -28,7 +28,11 @@ public enum Music
     mainMenu,
     chase,
     Anxious,
-    
+    energy,
+    Victory,
+    pauseFX,
+    loseMusic,
+    bgMusic
 }
 
 public class SoundManager : MonoBehaviour
@@ -54,7 +58,13 @@ public class SoundManager : MonoBehaviour
       //  DontDestroyOnLoad(Instance);
     }
 
-   
+
+    private void Update()
+    {
+        if (!IsMusicPlaying(Music.bgMusic) && !musicSource.isPlaying)
+            SoundManager.Instance.PlayMusic(Music.bgMusic, 0.3f);
+        
+    }
     public void PlaySfx(Sound sound,float volume)
     {
         if(sfxSource.clip==audioClips[(int)sound] && sfxSource.isPlaying)
@@ -65,7 +75,7 @@ public class SoundManager : MonoBehaviour
 
   public void PlayMusic(Music music,float volume)
   {
-
+        StopMusic();
         if (!IsMusicPlaying(music))
         {
             musicSource.PlayOneShot(musicClips[(int)music], volume);

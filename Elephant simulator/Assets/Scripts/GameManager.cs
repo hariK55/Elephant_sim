@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,18 +14,27 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
     #endregion
+    [SerializeField]
+    private TMP_Text playTime;
 
-    public GameObject endPanel;
-    public TextMeshProUGUI resultText;   // If using TextMeshPro use TMP_Text
-
+   [SerializeField] private AudioSource buttonSound;
+    [SerializeField] private GameObject firstButton;
+    [SerializeField] private GameObject endPanel;
+    [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private ParticleSystem fireworks;
+   
     void Start()
     {
+        fireworks.Stop();
         Time.timeScale = 1f;
         endPanel.SetActive(false);
     }
 
     public void WinGame()
     {
+        fireworks.Play();
+        SoundManager.Instance.StopMusic();
+        SoundManager.Instance.PlayMusic(Music.Victory, 2f);
         ShowEndScreen("YOU WIN!");
         resultText.color = Color.yellow;
     }
@@ -42,14 +52,16 @@ public class GameManager : MonoBehaviour
     {
         Input.Instance.caught = true;
         yield return new WaitForSeconds(delay);
-
+       // SoundManager.Instance.PlayMusic(Music.loseMusic, 0.7f);
         ShowEndScreen(msg);
         
     }
     void ShowEndScreen(string message)
     {
+        EventSystem.current.SetSelectedGameObject(firstButton);
         endPanel.SetActive(true);
         resultText.text = message;
+        playTime.text = "Survived Time: "+GameTimeManager.Instance.GetFormattedTime();
         Time.timeScale = 0f; // pause game
     }
 
@@ -64,4 +76,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void PlayButtonSound()
+    {
+        buttonSound.Play();
+    }
+
 }

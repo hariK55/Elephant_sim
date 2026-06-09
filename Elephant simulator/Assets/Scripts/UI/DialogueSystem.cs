@@ -1,10 +1,12 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DialogueSystem : MonoBehaviour
 {
+    [SerializeField] private GameObject firstButton;
     [Header("UI")]
     public TMP_Text dialogueText;
     public Button continueButton;
@@ -26,13 +28,17 @@ public class DialogueSystem : MonoBehaviour
 
     void Start()
     {
-        
+       
+
         continueButton.onClick.AddListener(OnContinueClicked);
         StartDialogue();
+        EventSystem.current.SetSelectedGameObject(firstButton);
     }
 
     void StartDialogue()
     {
+        Time.timeScale = 0f; // Pause game
+
         currentDialogueIndex = 0;
         typingCoroutine = StartCoroutine(TypeText(dialogues[currentDialogueIndex]));
     }
@@ -52,7 +58,7 @@ public class DialogueSystem : MonoBehaviour
         {
             dialogueText.text += letter;
 
-            yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSecondsRealtime(typingSpeed);
         }
        
         audioSource.Stop();
@@ -87,8 +93,9 @@ public class DialogueSystem : MonoBehaviour
     {
         gameObject.SetActive(false);
         audioSource.Stop();
+        EventSystem.current.SetSelectedGameObject(null);
         // Optional:
-        // Time.timeScale = 1f;
+        Time.timeScale = 1f;
         // Enable player movement here
     }
 }

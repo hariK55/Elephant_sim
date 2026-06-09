@@ -1,9 +1,13 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+
+    [SerializeField] private GameObject firstButton;
+
     public GameObject pauseMenuUI;
 
     private InputSystem inputActions;
@@ -36,6 +40,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        EventSystem.current.SetSelectedGameObject(null);
+        SoundManager.Instance.PlayMusic(Music.pauseFX, 0.5f);
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
@@ -43,6 +49,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Pause()
     {
+        EventSystem.current.SetSelectedGameObject(firstButton);
+        SoundManager.Instance.PlayMusic(Music.pauseFX, 0.5f);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;

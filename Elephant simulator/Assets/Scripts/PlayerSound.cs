@@ -17,7 +17,7 @@ public class PlayerSound : MonoBehaviour
     public void Footstep()
     {
      
-        SoundManager.Instance.PlaySfx(Sound.footstep, 0.4f);
+        SoundManager.Instance.PlaySfx(Sound.footstep, 0.6f);
     }
 
     public void SlideFx()
@@ -41,6 +41,15 @@ public class PlayerSound : MonoBehaviour
 
     private void Update()
     {
+        if (Input.Instance.isSlidingDownhill &&Input.Instance.IsRunning())
+        {
+                if(!isSliding)
+                {
+                    SoundManager.Instance.PlaySfx(Sound.slide, 0.7f);
+                    isSliding = true;
+                }
+            
+        }
         if (!Input.Instance.isSlidingDownhill)
         {
             if (isSliding)
@@ -49,6 +58,7 @@ public class PlayerSound : MonoBehaviour
                 isSliding = false;
             }
         }
+       
     }
 
     private void OnCollisionStay(Collision collision)
