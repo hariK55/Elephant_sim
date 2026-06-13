@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2966750739439028892
 Transform:
@@ -142,7 +142,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3396174388722069082
 Transform:
@@ -233,7 +233,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &9181186186337446699
 Transform:
@@ -359,6 +359,10 @@ PrefabInstance:
     - target: {fileID: 5730059239832651272, guid: d19fd63701f4d954d838271a6c566eb2, type: 3}
       propertyPath: m_Name
       value: PT_Fruit_Tree_01_pears_LOD2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7977516408021569528, guid: d19fd63701f4d954d838271a6c566eb2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

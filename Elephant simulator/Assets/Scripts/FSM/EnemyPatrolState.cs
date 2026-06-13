@@ -4,14 +4,20 @@ using System.Collections;
 
 public class EnemyPatrolState : EnemyState
 {
-   
     private NavMeshAgent agent;
 
     private int patrolIndex;
-    private int patrolDirection; // 1 = forward, -1 = backward
+    private int patrolDirection;
     private bool waiting;
 
-    public EnemyPatrolState(EnemyAI enemy):base(enemy)
+    // --- OPTIMIZATION ---
+    float visionTimer;
+    const float visionInterval = 0.2f;
+    bool cachedSeePlayer;
+
+    bool waitRoutineRunning;
+
+    public EnemyPatrolState(EnemyAI enemy) : base(enemy)
     {
         this.enemy = enemy;
         this.agent = enemy.agent;
@@ -19,21 +25,31 @@ public class EnemyPatrolState : EnemyState
 
     public override void Enter()
     {
-       
-        enemy.agent.speed = 3f;
+        agent.speed = 3f;
+
         enemy.animatorKumki.SetBool("isSearching", false);
-       // Debug.Log("patrolling");
+
         patrolIndex = enemy.patrolIndex;
         patrolDirection = enemy.patrolDirection;
+
         waiting = false;
+        waitRoutineRunning = false;
 
         agent.SetDestination(enemy.patrolPoints[patrolIndex].position);
     }
 
     public override void Update()
     {
-        // Vision check handled here
-        if (enemy.CanSeePlayer())
+        // ---------------- THROTTLED VISION ----------------
+        visionTimer += Time.deltaTime;
+
+        if (visionTimer >= visionInterval)
+        {
+            visionTimer = 0f;
+            cachedSeePlayer = enemy.CanSeePlayer();
+        }
+
+        if (cachedSeePlayer)
         {
             enemy.SwitchState(new EnemyChaseState(enemy));
             return;
@@ -41,20 +57,28 @@ public class EnemyPatrolState : EnemyState
 
         if (waiting) return;
 
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        // cache locals (reduces repeated property access)
+        float remaining = agent.remainingDistance;
+        bool pathPending = agent.pathPending;
+
+        if (!pathPending && remaining <= agent.stoppingDistance)
         {
-            enemy.StartCoroutine(WaitAndMove());
+            if (!waitRoutineRunning)
+            {
+                enemy.StartCoroutine(WaitAndMove());
+            }
         }
     }
 
     IEnumerator WaitAndMove()
     {
+        waitRoutineRunning = true;
         waiting = true;
 
         float waitTime = Random.Range(enemy.minWaitTime, enemy.maxWaitTime);
         yield return new WaitForSeconds(waitTime);
 
-        // 🔁 Reverse direction at patrol ends
+        // reverse patrol direction
         if (patrolIndex == enemy.patrolPoints.Length - 1)
             patrolDirection = -1;
         else if (patrolIndex == 0)
@@ -62,18 +86,20 @@ public class EnemyPatrolState : EnemyState
 
         patrolIndex += patrolDirection;
 
-        // Save back to EnemyAI so other states know current patrol info
         enemy.patrolIndex = patrolIndex;
         enemy.patrolDirection = patrolDirection;
 
         agent.SetDestination(enemy.patrolPoints[patrolIndex].position);
 
         waiting = false;
+        waitRoutineRunning = false;
     }
 
     public override void Exit()
     {
         enemy.StopAllCoroutines();
+
         waiting = false;
+        waitRoutineRunning = false;
     }
 }

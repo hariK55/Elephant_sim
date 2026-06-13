@@ -43,6 +43,12 @@ public class RapidPressMechanic : MonoBehaviour
     private float lastMashTime;
     public float mashTimeout = 0.25f;
 
+    private float detectTimer;
+    private const float DetectInterval = 0.1f;
+
+    private bool sliderVisible;
+
+    private ElephantAnimation elephantAnim;
     void Awake()
     {
         Instance = this;
@@ -51,7 +57,10 @@ public class RapidPressMechanic : MonoBehaviour
         if (progressSlider != null)
             progressSlider.gameObject.SetActive(false);
     }
-
+    private void Start()
+    {
+        elephantAnim = ElephantAnimation.Instance;
+    }
     void OnDisable()
     {
         StopVibration();
@@ -59,7 +68,13 @@ public class RapidPressMechanic : MonoBehaviour
 
     void Update()
     {
-        DetectTree();
+        detectTimer -= Time.deltaTime;
+
+        if (detectTimer <= 0f)
+        {
+            detectTimer = DetectInterval;
+            DetectTree();
+        }
 
         if (!canPush || completed) return;
 
@@ -77,6 +92,13 @@ public class RapidPressMechanic : MonoBehaviour
         }
     }
 
+    private void SetSliderVisible(bool visible)
+    {
+        if (sliderVisible == visible) return;
+
+        sliderVisible = visible;
+        progressSlider.gameObject.SetActive(visible);
+    }
     // =========================
     // 🔍 SPHERE DETECTION
     // =========================
@@ -84,8 +106,10 @@ public class RapidPressMechanic : MonoBehaviour
     {
         RaycastHit hit;
 
-        Vector3 origin = transform.position + Vector3.up * 1f;
-        Vector3 direction = transform.forward;
+        Transform tr = transform;
+
+        Vector3 origin = tr.position + Vector3.up;
+        Vector3 direction = tr.forward;
 
         if (Physics.SphereCast(origin, detectionRadius, direction,
             out hit, detectionDistance, treeLayer))
@@ -134,13 +158,16 @@ public class RapidPressMechanic : MonoBehaviour
         if (!IsHoldingForward()) return; // ✅ must hold forward
 
         if (progressSlider != null)
-            progressSlider.gameObject.SetActive(true);
+            SetSliderVisible(true);
 
-        ElephantAnimation.Instance.PushAnim(true);
+        elephantAnim.PushAnim(true);
         lastMashTime = Time.time;
 
         progress += pressAmount;
         progress = Mathf.Clamp(progress, 0, maxProgress);
+
+       /* progress = Mathf.Min(progress + pressAmount, maxProgress);
+        progress = Mathf.Max(progress - decayRate * Time.deltaTime, 0f);*/
 
         // 🎥 CAMERA SHAKE
         if (impulseSource != null)
@@ -185,18 +212,33 @@ public class RapidPressMechanic : MonoBehaviour
         return dir.normalized;
     }
 
+    private float lastSliderValue = -1f;
+
     private void UpdateUI()
     {
         if (progressSlider == null) return;
-        progressSlider.value = progress / maxProgress;
+
+        float value = progress / maxProgress;
+
+        if (Mathf.Abs(value - lastSliderValue) < 0.001f)
+            return;
+
+        lastSliderValue = value;
+        progressSlider.value = value;
     }
 
+    private float lastVibration = -1f;
     private void UpdateVibration()
     {
         if (gamepad == null) return;
 
         float normalized = progress / maxProgress;
         float strength = Mathf.Lerp(minVibration, maxVibration, normalized);
+
+        if (Mathf.Abs(strength - lastVibration) < 0.01f)
+            return;
+
+        lastVibration = strength;
         gamepad.SetMotorSpeeds(strength, strength);
     }
 
@@ -211,7 +253,7 @@ public class RapidPressMechanic : MonoBehaviour
         StopVibration();
         NotificationUI.Instance.ShowMessage("Kumki alerted!");
         if (progressSlider != null)
-            progressSlider.gameObject.SetActive(false);
+            SetSliderVisible(false);
 
         progress = 0f;
     }

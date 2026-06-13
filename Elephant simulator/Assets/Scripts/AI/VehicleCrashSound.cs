@@ -26,7 +26,7 @@ public class VehicleCrashSound : MonoBehaviour
 
     void Update()
     {
-        CheckFlip();
+       // CheckFlip();
     }
 
     // ---------------- COLLISION IMPACT ----------------

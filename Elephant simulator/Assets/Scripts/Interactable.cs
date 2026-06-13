@@ -33,23 +33,24 @@ public class Interactable : MonoBehaviour, Iinteractable
        
 
         PlayerInteractor.OnpickEatTutorial += PlayerInteractor_OnpickEatTutorial;
-        /*outline = gameObject.AddComponent<Outline>();
-       
-        outline.OutlineMode = Outline.Mode.OutlineAll;
-        outline.OutlineColor = Color.cyan;
-        outline.OutlineWidth = 10f;
-        outline.enabled = false;*/
+        
 
         Instance = this;
     }
 
     private void PlayerInteractor_OnpickEatTutorial()
     {
-        displayStr = $"Hold {currentBindingEat} to Eat";
+       // displayStr = $"Hold {currentBindingEat} to Eat";
+       displayStr = "Hold                   to Eat";
     }
 
     private void Start()
     {
+        currentBindingEat =
+           eatAction.action.GetBindingDisplayString();
+        currentBindingPick =
+          pickAction.action.GetBindingDisplayString();
+
         if ((gameObject.tag) != "Tree")
         {
             rend.material.EnableKeyword("_EMISSION");
@@ -63,10 +64,7 @@ public class Interactable : MonoBehaviour, Iinteractable
     string currentBindingEat="";
     void Update()
     {
-        currentBindingEat =
-            eatAction.action.GetBindingDisplayString();
-         currentBindingPick =
-           pickAction.action.GetBindingDisplayString();
+       
 
         if (currentBindingEat != lastBinding)
         {
@@ -77,14 +75,15 @@ public class Interactable : MonoBehaviour, Iinteractable
         if (currentBindingPick != lastBindingPick)
         {
             lastBindingPick = currentBindingPick;
-            displayStr = $"Press {currentBindingPick} to Pick";
+            displayStr = "Press                   to Pick";
 
         }
     }
     public void Interact()
     {
         ElephantAnimation.Instance.pick();
-        displayStr = $"Press {currentBindingPick} to Pick";
+        //displayStr = $"Press {currentBindingPick} to Pick";
+        displayStr = "Press                   to Pick";
     }
 
     
@@ -92,14 +91,19 @@ public class Interactable : MonoBehaviour, Iinteractable
     public void OnFocusGained()
     {
         //outline.enabled = true;
-        displayStr = $"Press {currentBindingPick} to Pick";
+        // displayStr = $"Press {currentBindingPick} to Pick";
+        displayStr = "Press                   to Pick";
+
+        rend.material.SetColor("_EmissionColor", Color.yellow * 6f);
 
     }
 
     public void OnFocusLost()
     {
         rend.material.SetColor("_EmissionColor", Color.black);
-        displayStr = $"Press {currentBindingPick} to Pick";
+        // displayStr = $"Press {currentBindingPick} to Pick";
+        displayStr = "Press                   to Pick";
+
     }
 
     public bool CanInteract()

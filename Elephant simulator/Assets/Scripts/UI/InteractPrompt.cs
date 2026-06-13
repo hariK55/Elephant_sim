@@ -4,6 +4,8 @@ using UnityEngine;
 public class InteractPrompt : MonoBehaviour
 {
     [SerializeField] private TMP_Text label;
+    [SerializeField] private GameObject takeImg;
+    [SerializeField] private GameObject eatImg;
 
     [SerializeField] private Vector3 worldOffset = new Vector3(0f, 1f, 0f);
 
@@ -84,9 +86,20 @@ public class InteractPrompt : MonoBehaviour
     {
         label.gameObject.SetActive(false);
         target = null;
+
+        takeImg.SetActive(false);
+        eatImg.SetActive(false);
     }
 
-
-
+    public void showTake()
+    {
+        takeImg.SetActive(true);
+        eatImg.SetActive(false);
+    }
+    public void showEat()
+    {
+        takeImg.SetActive(false);
+        eatImg.SetActive(true);
+    }
 
 }

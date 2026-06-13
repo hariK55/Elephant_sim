@@ -40,6 +40,8 @@ public class PlayerInteractor : MonoBehaviour
 
     private string displayStr;
 
+    private float scanTimer;
+    private const float ScanInterval = 0.1f;
 
     private void Awake()
     {
@@ -76,17 +78,20 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
-        Iinteractable nearest = FindNearestInteractable();
-        
-        UpdateFocus(nearest);
+        scanTimer -= Time.deltaTime;
 
-
-        if (HasTree())
+        if (scanTimer <= 0f)
         {
-                       Input.Instance.StopRunning();
+            scanTimer = ScanInterval;
+
+            Iinteractable nearest = FindNearestInteractable();
+            UpdateFocus(nearest);
         }
+
+        if (holdingTree)
+            Input.Instance.StopRunning();
     }
     private Iinteractable FindNearestInteractable()
     {
@@ -131,6 +136,7 @@ public class PlayerInteractor : MonoBehaviour
         {
             focused?.OnFocusGained();
             prompt.Show(focused);
+            prompt.showTake();
 
         }
         else
@@ -144,22 +150,26 @@ public class PlayerInteractor : MonoBehaviour
         
     }
     public static event Action OnpickEatTutorial;
+
+    private Collider heldCollider;
+    private Rigidbody heldRb;
+    private Interactable heldInteractable;
     public void PickObject(GameObject obj)
     {
 
-        
+        heldInteractable = obj.GetComponent<Interactable>();
         ElephantAnimation.Instance.eatAnim(false);
+        holdingTree = obj.GetComponent<PushableTree>() != null;
 
-       
         SoundManager.Instance.PlaySfx(Sound.thud, 0.5f);
 
         // Disable physics while holdin
-        Collider col = obj.GetComponent<Collider>();
-        if (col != null)
-            col.enabled = false;
+        heldCollider = obj.GetComponent<Collider>();
+        if (heldCollider != null)
+            heldCollider.enabled = false;
 
-        Rigidbody rb = obj.GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+        heldRb = obj.GetComponent<Rigidbody>();
+        heldRb.isKinematic = true;
        
         // Attach object to hand/hold point
         obj.transform.SetParent(holdPoint, false);
@@ -175,7 +185,7 @@ public class PlayerInteractor : MonoBehaviour
         {
             obj.transform.localPosition = new Vector3(0f, -1.63f, 0f);
         }
-        else if(obj.tag=="banana")
+        else if (obj.CompareTag("banana"))
         {
             obj.transform.localPosition = new Vector3(-0.31f, -0.219f, 0.2f);
             obj.transform.localRotation = new Quaternion(0.620607018f, 0.0860012397f, -0.0728725418f, 0.775977075f);
@@ -184,15 +194,17 @@ public class PlayerInteractor : MonoBehaviour
         {
             OnpickEatTutorial?.Invoke();
             prompt.Show(focused);
+            prompt.showEat();
         }
     }
 
     public void DropObject()
     {
+        holdingTree = false;
         if  (focusedObject!=null &&  focusedObject.GetComponent<PushableTree>())
             SoundManager.Instance.PlaySfx(Sound.thud, 0.5f);
 
-        if (focusedObject != null && focusedObject.tag=="eatable")
+        if (focusedObject != null && focusedObject.CompareTag("eatable"))
             SoundManager.Instance.PlaySfx(Sound.drop, 1f);
 
 
@@ -201,14 +213,16 @@ public class PlayerInteractor : MonoBehaviour
        
 
         focusedObject.transform.SetParent(null);
-        focusedObject.GetComponent<Collider>().enabled = true;
-        focusedObject.GetComponent<Collider>().isTrigger = false;
+        heldCollider.enabled = true;
+        heldCollider.isTrigger = false;
 
         // Re-enable physics
-        Rigidbody rb = focusedObject.GetComponent<Rigidbody>();
-        rb.isKinematic = false;
+        heldRb.isKinematic = false;
 
         focusedObject = null;
+        heldCollider = null;
+        heldRb = null;
+        heldInteractable = null;
     }
     public bool HasObject()
     {
@@ -217,7 +231,8 @@ public class PlayerInteractor : MonoBehaviour
     public bool isEatable()
     {
         if (focusedObject== null) return false;
-        return focusedObject.GetComponent<Interactable>().IsEatable();
+       return heldInteractable != null &&
+       heldInteractable.IsEatable();
     }
     public void OnEat()
     {
@@ -225,7 +240,7 @@ public class PlayerInteractor : MonoBehaviour
         SoundManager.Instance.PlaySfx(Sound.eatCane, 0.5f);
         SoundManager.Instance.PlayMusic(Music.energy, 0.7f);
 
-        int eatValue = focusedObject.GetComponent<Interactable>().GetEatVAlue();
+        int eatValue = heldInteractable.GetEatVAlue();
         HungerUI.instance.AddFood(eatValue);
         NotificationUI.Instance.ShowMessage("+"+eatValue+" Energy");
         Eated?.Invoke(this, EventArgs.Empty);
@@ -237,10 +252,9 @@ public class PlayerInteractor : MonoBehaviour
 
        
     }
-
-   public bool HasTree()
+    private bool holdingTree;
+    public bool HasTree()
     {
-        return focusedObject != null && focusedObject.GetComponent<PushableTree>();
-       
+        return holdingTree;
     }
 }

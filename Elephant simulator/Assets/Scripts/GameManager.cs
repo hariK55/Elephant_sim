@@ -17,35 +17,32 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TMP_Text playTime;
 
-   [SerializeField] private AudioSource buttonSound;
+    [SerializeField] private AudioSource buttonSound;
     [SerializeField] private GameObject firstButton;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private TextMeshProUGUI resultText;
-    [SerializeField] private ParticleSystem fireworks;
    
     void Start()
     {
-        fireworks.Stop();
+       
         Time.timeScale = 1f;
         endPanel.SetActive(false);
+        
     }
 
     public void WinGame()
     {
-        fireworks.Play();
+       
         SoundManager.Instance.StopMusic();
         SoundManager.Instance.PlayMusic(Music.Victory, 2f);
         ShowEndScreen("YOU WIN!");
         resultText.color = Color.yellow;
     }
 
-  /*  public void LoseGame()
-    {
-        ShowEndScreen("YOU LOSE!");
-       Input.Instance.caught= true;
-    }*/
+ 
     public void LoseGame(float delay,string msg)
     {
+        SoundManager.Instance.PlayMusic(Music.loseMusic, 0.7f);
         StartCoroutine(LoseGameRoutine(delay,msg));
     }
     private IEnumerator LoseGameRoutine(float delay, string msg)
@@ -61,7 +58,7 @@ public class GameManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(firstButton);
         endPanel.SetActive(true);
         resultText.text = message;
-        playTime.text = "Survived Time: "+GameTimeManager.Instance.GetFormattedTime();
+        playTime.text = "Survived Time: "+ GameTimeManager.Instance.GetFormattedTime();
         Time.timeScale = 0f; // pause game
     }
 

@@ -22,15 +22,42 @@ public class EnemySearchState : EnemyState
         MoveNext();
     }
 
+    private float visionTimer;
+    private float visionInterval = 0.2f;
+
+   private bool cachedCanSeePlayer;
+   private bool hasSwitchedToChase;
+
     public override void Update()
     {
-        if (enemy.CanSeePlayer())
+        // ---------------- THROTTLED VISION ----------------
+        visionTimer += Time.deltaTime;
+
+        if (visionTimer >= visionInterval)
         {
-            enemy.SwitchState(new EnemyChaseState(enemy));
-            return;
+            visionTimer = 0f;
+            cachedCanSeePlayer = enemy.CanSeePlayer();
         }
 
-        if (!enemy.agent.pathPending && enemy.agent.remainingDistance < enemy.agent.stoppingDistance)
+        // ---------------- CHASE TRANSITION (GUARDED) ----------------
+        if (cachedCanSeePlayer)
+        {
+            if (!hasSwitchedToChase)
+            {
+                hasSwitchedToChase = true;
+                enemy.SwitchState(new EnemyChaseState(enemy));
+            }
+            return;
+        }
+        else
+        {
+            hasSwitchedToChase = false;
+        }
+
+        // ---------------- NAV CHECK (CACHED LOCALS) ----------------
+        var agent = enemy.agent;
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             if (searchQueue.Count > 0)
                 MoveNext();

@@ -37,6 +37,19 @@ public class FearMeter : MonoBehaviour
     private ColorAdjustments colorAdjustments;
     private bool firstText = false;
 
+    private HungerUI hungerUI;
+    private SoundManager soundManager;
+
+    private enum FearState
+    {
+        None,
+        Low,
+        Medium,
+        High
+    }
+
+    private FearState currentState;
+    private FearState previousState;
 
     private void Awake()
     {
@@ -46,6 +59,8 @@ public class FearMeter : MonoBehaviour
 
     void Start()
     {
+        hungerUI = HungerUI.instance;
+        soundManager = SoundManager.Instance;
         //  volume.profile.TryGet(out bloom);
         volume.profile.TryGet(out vignette);
         volume.profile.TryGet(out colorAdjustments);
@@ -61,15 +76,14 @@ public class FearMeter : MonoBehaviour
         }
         
     }
-   
+
     void Update()
     {
-        
-            
-            HandleFear();
-            UpdateUI();
-            ApplyEffects();
-        
+        HandleFear();
+        UpdateUI();
+        UpdateFearState();
+
+
     }
 
     void HandleFear()
@@ -87,61 +101,134 @@ public class FearMeter : MonoBehaviour
 
         fear = Mathf.Clamp(fear, 0f, maxFear);
 
-        vignette.intensity.value = (fear / maxFear)*0.75f;
+        float fearPercent = fear / maxFear;
+        vignette.intensity.value = fearPercent * 0.75f;
     }
 
     void UpdateUI()
     {
-        fearSlider.value = fear;
-
-     
+        if (fearSlider.value != fear)
+            fearSlider.value = fear;
     }
-   
+
+    private void UpdateFearState()
+    {
+        if (fear >= maxFear)
+            currentState = FearState.High;
+        else if (fear > 50f)
+            currentState = FearState.Medium;
+        else if (fear > 0f)
+            currentState = FearState.Low;
+        else
+            currentState = FearState.None;
+
+        if (currentState == previousState)
+            return;
+
+        previousState = currentState;
+
+        switch (currentState)
+        {
+            case FearState.High:
+                HungerUI.instance.drainPerSecond = 0.5f;
+                fearOverlay.color = Color.brown;
+                AnxiousMusic();
+                break;
+
+            case FearState.Medium:
+                HungerUI.instance.drainPerSecond = 0.3f;
+                fearOverlay.color = Color.red;
+                fearDecreaseRate = 2f;
+                AnxiousMusic();
+                break;
+
+            case FearState.Low:
+                HungerUI.instance.drainPerSecond = 0.07f;
+                fearOverlay.color = Color.yellow;
+                fearDecreaseRate = 1f;
+                AnxiousMusic();
+
+                if (!EnemyAI.instance.CanSeePlayer())
+                    tutorialText.text = tutorialMessage;
+
+                firstText = true;
+                break;
+
+            case FearState.None:
+                HungerUI.instance.drainPerSecond = 0.04f;
+
+                if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
+                    SoundManager.Instance.StopMusic();
+
+                if (firstText)
+                    tutorialText.text = "";
+
+                break;
+        }
+    }
     void ApplyEffects()
     {
         if (Input.Instance.caught) return;
 
         if (fear >= maxFear)
         {
-            HungerUI.instance.drainPerSecond =0.5f;
-            fearOverlay.color = Color.brown;
+            if(hungerUI.drainPerSecond != 0.5f)
+            {
+                hungerUI.drainPerSecond = 0.5f;
+                fearOverlay.color = Color.brown;
 
-            AnxiousMusic();
+                AnxiousMusic();
+            }
+           
         }
 
     
         else if(fear>50 && fear <maxFear)
         {
-            HungerUI.instance.drainPerSecond = 0.3f;
-            fearOverlay.color = Color.red;
-            fearDecreaseRate = 2f;
-            AnxiousMusic();
+            if(hungerUI.drainPerSecond != 0.3f)
+            {
+                hungerUI.drainPerSecond = 0.3f;
+                fearOverlay.color = Color.red;
+                fearDecreaseRate = 2f;
+                AnxiousMusic();
+            }
+           
 
         }
         else if(fear<=50 && fear >0)
         {
-            HungerUI.instance.drainPerSecond = 0.07f;
-            fearOverlay.color = Color.darkOrange;
-            fearDecreaseRate = 1f;
+            if(hungerUI.drainPerSecond != 0.07f)
+            {
+                hungerUI.drainPerSecond = 0.07f;
+                fearOverlay.color = Color.darkOrange;
+                fearDecreaseRate = 1f;
 
-            AnxiousMusic();
+                AnxiousMusic();
+                if (tutorialText.text != tutorialMessage)
+                {
+                    if (!EnemyAI.instance.CanSeePlayer())
+                        tutorialText.text = tutorialMessage;
+                }
 
-            if(!EnemyAI.instance.CanSeePlayer()) 
-            tutorialText.text = tutorialMessage;
 
-            firstText = true;
+                firstText = true;
+            }
+          
 
         }
         else
         {
+            if(hungerUI.drainPerSecond != 0.04f)
+            {
+                hungerUI.drainPerSecond = 0.04f;
+                if (soundManager.IsMusicPlaying(Music.Anxious))
 
-            HungerUI.instance.drainPerSecond = 0.04f;
-            if (SoundManager.Instance.IsMusicPlaying(Music.Anxious))
-                // SoundManager.Instance.FadeOut(10f);
-                SoundManager.Instance.StopMusic();
+                    soundManager.StopMusic();
 
-            if(firstText)
-            tutorialText.text ="";
+                if (firstText)
+                    tutorialText.text = "";
+            }
+              
         }
 
     }
@@ -154,9 +241,9 @@ public class FearMeter : MonoBehaviour
 
     private void AnxiousMusic()
     {
-        if (!SoundManager.Instance.IsMusicPlaying(Music.Anxious) && !SoundManager.Instance.IsMusicPlaying(Music.chase))
-             SoundManager.Instance.PlayMusic(Music.Anxious,0.4f);
-           // SoundManager.Instance.FadeIn(5f);
+        if (!soundManager.IsMusicPlaying(Music.Anxious) && !soundManager.IsMusicPlaying(Music.chase))
+             soundManager.PlayMusic(Music.Anxious,0.4f);
+           // soundManager.FadeIn(5f);
     }
 
     public void resetFear()

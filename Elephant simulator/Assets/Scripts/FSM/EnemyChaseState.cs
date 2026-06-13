@@ -15,29 +15,41 @@ public class EnemyChaseState : EnemyState
         
     }
     float repathDistance = 1f;
+
+    float visionTimer;
+    const float visionInterval = 0.15f;
+    bool cachedCanSeePlayer = true;
+
     public override void Update()
     {
-       
-
-        if (Vector3.Distance(enemy.agent.destination, enemy.player.position) > repathDistance)
+        if (Vector3.Distance(enemy.agent.destination,
+                             enemy.player.position) > repathDistance)
         {
             enemy.agent.SetDestination(enemy.player.position);
         }
 
-       // enemy.agent.SetDestination(enemy.player.position);
+        float attackRangeSqr =
+            enemy.attackRange * enemy.attackRange;
 
-        float dist = Vector3.Distance(enemy.transform.position, enemy.player.position);
-
-        if (dist <= enemy.attackRange)
+        if ((enemy.transform.position -
+             enemy.player.position).sqrMagnitude <= attackRangeSqr)
         {
             enemy.SwitchState(new EnemyAttackState(enemy));
             return;
         }
 
-        if (!enemy.CanSeePlayer())
-        {
+        visionTimer += Time.deltaTime;
 
-            enemy.SwitchState(new EnemySearchState(enemy, enemy.lastKnownPosition));      
+        if (visionTimer >= visionInterval)
+        {
+            visionTimer = 0f;
+
+            if (!enemy.CanSeePlayer())
+            {
+                enemy.SwitchState(
+                    new EnemySearchState(enemy, enemy.lastKnownPosition)
+                );
+            }
         }
     }
 

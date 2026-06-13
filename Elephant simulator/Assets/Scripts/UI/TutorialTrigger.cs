@@ -44,7 +44,11 @@ public class TutorialTrigger : MonoBehaviour
             Gamepad.current != null &&
             Gamepad.current.buttonSouth.wasPressedThisFrame;
 
-        if (keyboardPressed || gamepadPressed)
+        bool touchPressed =
+        Touchscreen.current != null &&
+        Touchscreen.current.primaryTouch.press.wasPressedThisFrame;
+
+        if (keyboardPressed || gamepadPressed || touchPressed)
         {
             tutorialPanel.SetActive(false);
             tutorialActive = false;
