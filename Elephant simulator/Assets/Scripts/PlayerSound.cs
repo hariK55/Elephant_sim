@@ -22,7 +22,7 @@ public class PlayerSound : MonoBehaviour
 
     public void SlideFx()
     {
-        SoundManager.Instance.PlaySfx(Sound.slide, 0.7f);
+        SoundManager.Instance.PlaySfx(Sound.slide, 1f);
         isSliding = true;
 
     }
@@ -32,7 +32,7 @@ public class PlayerSound : MonoBehaviour
         // 🎥 CAMERA SHAKE
         if (Input.Instance.IsRunning() && Input.Instance.IsWalking())
             shakeForce = 0.17f;
-        else shakeForce = 0.12f;
+        else shakeForce = 0.1f;
 
         if (impulseSource != null)
             impulseSource.GenerateImpulse(shakeForce);

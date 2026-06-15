@@ -23,7 +23,7 @@ public class PlayerInteractor : MonoBehaviour
     private GameObject focusedObject;
     [SerializeField] private Transform holdPoint;
 
-    [SerializeField] private float radius = 2f;
+    [SerializeField] private float radius = 2.5f;
 
     [SerializeField] private LayerMask interactableLayers;
 

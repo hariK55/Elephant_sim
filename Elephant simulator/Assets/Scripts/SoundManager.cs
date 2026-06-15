@@ -63,7 +63,7 @@ public class SoundManager : MonoBehaviour
     {
         if (!IsMusicPlaying(Music.bgMusic) && !musicSource.isPlaying)
             SoundManager.Instance.PlayMusic(Music.bgMusic, 0.2f);
-        
+
     }
     public void PlaySfx(Sound sound,float volume)
     {

@@ -27,7 +27,7 @@ public class tip : MonoBehaviour
                 tipText.text = "Tip: Avoid or attack the vehicles to prevent your mental health";
                 break;
             case 4:
-                tipText.text = "Tip: Poor young elephant doesn't dare to face Kumki!";
+                tipText.text = "Tip: Car sounds and horns frighten the elephant!";
                 break;
         }
     }

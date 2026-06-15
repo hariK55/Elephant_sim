@@ -15,7 +15,7 @@ public class RapidPressMechanic : MonoBehaviour
     public float decayRate = 15f;
 
     [Header("Tree Detection")]
-    public float detectionRadius = 1.2f;
+    public float detectionRadius = 2f;
     public float detectionDistance = 2f;
     public LayerMask treeLayer;
 
