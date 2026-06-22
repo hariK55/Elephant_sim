@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TMP_Text playTime;
 
+   
     [SerializeField] private AudioSource buttonSound;
     [SerializeField] private GameObject firstButton;
     [SerializeField] private GameObject endPanel;
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-       
+        
         SoundManager.Instance.StopMusic();
         SoundManager.Instance.PlayMusic(Music.Victory, 2f);
         ShowEndScreen("YOU WIN!");
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
  
     public void LoseGame(float delay,string msg)
     {
+       
         SoundManager.Instance.PlayMusic(Music.loseMusic, 0.7f);
         StartCoroutine(LoseGameRoutine(delay,msg));
     }
@@ -78,5 +80,8 @@ public class GameManager : MonoBehaviour
     {
         buttonSound.Play();
     }
-
+    public void HideEndScreen()
+    {
+        endPanel.SetActive(false);
+    }
 }

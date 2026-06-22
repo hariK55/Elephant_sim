@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField] private GameObject strtTxt;
+
 
     [SerializeField] private GameObject firstButton;
 

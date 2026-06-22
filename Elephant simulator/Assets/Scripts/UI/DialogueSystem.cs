@@ -28,7 +28,15 @@ public class DialogueSystem : MonoBehaviour
 
     void Start()
     {
-       
+        if (PlayerPrefs.GetInt("TutorialsEnabled", 1) == 0)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }   
 
         continueButton.onClick.AddListener(OnContinueClicked);
         StartDialogue();

@@ -17,7 +17,8 @@ public class TutorialTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
+        if (PlayerPrefs.GetInt("TutorialsEnabled", 1) == 0)
+            return;
 
         if (!other.CompareTag("Player"))
             return;
