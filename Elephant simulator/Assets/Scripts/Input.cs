@@ -101,7 +101,7 @@ public class Input : MonoBehaviour
             return;
         }
         ElephantAnimation.Instance.Trumpet();
-        SoundManager.Instance.PlaySfx(Sound.Trumpet, 1f);
+        SoundManager.Instance.PlaySfx(Sound.Trumpet, .7f);
         PlayerInteractor.Instance.DropObject();
         EnemyAI.instance.HearSound(transform.position);
     }
@@ -202,11 +202,11 @@ public class Input : MonoBehaviour
     public void StartRunning()
     {
         if (PlayerInteractor.Instance.HasTree()) return;
-        
+
         speed = runSpeed;
 
-       isRunning = true;
-       
+        isRunning = true;
+
     }
     // ---------------------------------------------------
     // CAMERA-RELATIVE MOVEMENT

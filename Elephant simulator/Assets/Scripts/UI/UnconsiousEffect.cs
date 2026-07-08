@@ -19,7 +19,7 @@ public class UnconsciousEffect : MonoBehaviour
         if (!isUnconscious)
         {
             StartCoroutine(FadeRoutine());
-            SoundManager.Instance.PlaySfx(Sound.pushGrowl,0.2f);
+            SoundManager.Instance.PlaySfx(Sound.pushGrowl,0.1f);
         }
        
     }

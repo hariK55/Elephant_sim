@@ -55,7 +55,7 @@ public class PushableTree : MonoBehaviour
 
         // 🎵 Sounds
         SoundManager.Instance.PlaySfx(Sound.TreeFall, 0.7f);
-        SoundManager.Instance.PlaySfx(Sound.pushGrowl, 0.5f);
+        SoundManager.Instance.PlaySfx(Sound.pushGrowl, 0.3f);
 
         EnemySoundSystem.EmitSound(transform.position, treeFallSound);
 

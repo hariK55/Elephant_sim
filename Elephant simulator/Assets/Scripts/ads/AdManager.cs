@@ -19,11 +19,11 @@ public class AdManager : MonoBehaviour
     private string rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
 
     //original IDs
-    //private string bannerAdUnitId = "ca-app-pub-1216562962219777/2593949295";
+   /* private string bannerAdUnitId = "ca-app-pub-1216562962219777/2593949295";
 
-    //private string interstitialAdUnitId = "ca-app-pub-1216562962219777/7009007887";
+    private string interstitialAdUnitId = "ca-app-pub-1216562962219777/7009007887";
 
-    //private string rewardedAdUnitId = "ca-app-pub-1216562962219777/8556722416";
+    private string rewardedAdUnitId = "ca-app-pub-1216562962219777/8556722416";*/
 
     private void Awake()
     {
